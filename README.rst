@@ -39,7 +39,7 @@ Sample data command for generate instances of MyModel::
 SampleDataHelper Methods
 ------------------------
 
-::
+Available methods::
     word(): return a word
     email(): return an email
     int(max_value, min_value): return an integer (default min_value = 0)
