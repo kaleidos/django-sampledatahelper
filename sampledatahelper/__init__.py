@@ -12,6 +12,7 @@ import ImageDraw, ImageFont
 from django.utils.timezone import utc
 from tempfile import mkstemp
 from django.core.files.images import ImageFile
+from .image_generators import *
 
 class SampleDataHelper(object):
     def __init__(self, seed = None):
@@ -89,27 +90,13 @@ class SampleDataHelper(object):
             self.images_cache[str(width)+"x"+str(height)] = im
 
         if typ == "simple":
-            draw = ImageDraw.Draw(im)
-            draw.rectangle([0,0,width,height], fill= "rgb(%d,%d,%d)"%(1+self.int(255),1+self.int(255),1+self.int(255)))
-            draw.text((0, 0), self.word(), font=self.ttf_font)
-            im.rotate(45)
+            generator = ImgSimple()
+        elif typ == "plasma":
+            generator = ImgPlasma()
         elif typ == "mandelbrot":
-            xa = self.float(-2, 2)
-            xb = self.float(-2, 2)
-            ya = self.float(-2, 2)
-            yb = self.float(-2, 2)
-            maxIt = 20 # max iterations allowed
-            
-            for y in range(height):
-                zy = y * (yb - ya) / (height - 1)  + ya
-                for x in range(width):
-                    zx = x * (xb - xa) / (width - 1)  + xa
-                    z = zx + zy * 1j
-                    c = z
-                    for i in range(maxIt):
-                        if abs(z) > 2.0: break 
-                        z = z * z + c
-                    im.putpixel((x, y), (i % 4 * 64, i % 8 * 32, i % 16 * 16))
+            generator = ImgMandelbrot()
+
+        im = generator.generate(self, im, width, height)
 
         tf, tfname = mkstemp(suffix=".png")
 
