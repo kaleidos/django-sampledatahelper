@@ -59,10 +59,10 @@ class ImgMandelbrot(object):
     def generate(self, sd, width, height):
         im = Image.new("RGBA", (width, height))
 
-        xa = sd.float(-2, 2)
-        xb = sd.float(-2, 2)
-        ya = sd.float(-2, 2)
-        yb = sd.float(-2, 2)
+        xa = sd.float(-2, 0)
+        xb = sd.float(0, 2)
+        ya = sd.float(-2, 0)
+        yb = sd.float(0, 2)
         maxIt = 20 # max iterations allowed
         
         for y in range(height):
@@ -97,6 +97,11 @@ class ImgIFS(object):
         # Levy Dragon
         mats.append([[0.5, -0.5, 0.5, 0.5, 0.0, 0.0, 0.5],
                     [-0.5, -0.5, 0.5, -0.5, 1.0, 0.0, 0.5]])
+
+        # Piramid
+        mats.append([[0.5, 0.0, 0.0, 0.5, 0.0, 0.0, 0.33],
+                    [0.5, 0.0, 0.0, 0.5, 1.0, 0.0, 0.33],
+                    [0.5, 0.0, 0.0, 0.5, 0.6, 0.8, 0.33]])
 
         mat = sd.choice(mats)
 
