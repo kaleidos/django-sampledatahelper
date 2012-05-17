@@ -4,6 +4,7 @@
 __version__ = (0, 0, 1, 'final', 0)
 
 import os
+import sys
 from django.contrib.webdesign import lorem_ipsum
 import datetime as dt
 import random
@@ -33,8 +34,23 @@ class SampleDataHelper(object):
         return lorem_ipsum.words(1, common=False) + u'@' + lorem_ipsum.words(1, common=False) + \
                random.choice([u'.es', u'.com', u'.org', u'.net', u'.gov', u'.tk'])
     
-    def int(self, max_value, min_value=0):
+    def int(self, *args, **kwargs):
         """Random number from 0 to max_value - 1."""
+        if len(kwargs.keys()) > 0:
+            if 'min_value' in kwargs.keys():
+                min_value = kwargs['min_value']
+            if 'max_value' in kwargs.keys():
+                max_value = kwargs['max_value']
+        else:
+            if len(args) == 0:
+                min_value = 0
+                max_value = sys.maxint
+            elif len(args) == 1:
+                min_value = 0
+                max_value = args[0]
+            else: 
+                min_value = args[0]
+                max_value = args[1]
         return random.randrange(min_value, max_value)
     
     def province_code(self):
@@ -82,21 +98,24 @@ class SampleDataHelper(object):
     def boolean(self):
         return random.randrange(0, 2) == 0
     
+    def choice(self, choices):
+        return random.choice(choices)
+    
     def image(self, width, height, typ="simple"):
-        if self.images_cache.has_key(str(width)+"x"+str(height)):
-            im = self.images_cache[str(width)+"x"+str(height)]
-        else:
-            im = Image.new("RGB", (width, height))
-            self.images_cache[str(width)+"x"+str(height)] = im
-
         if typ == "simple":
             generator = ImgSimple()
         elif typ == "plasma":
             generator = ImgPlasma()
         elif typ == "mandelbrot":
             generator = ImgMandelbrot()
+        elif typ == "ifs":
+            generator = ImgIFS()
+        elif typ == "random":
+            generator = self.choice([ImgSimple, ImgPlasma, ImgMandelbrot, ImgIFS])()
+        else:
+            generator = ImgSimple()
 
-        im = generator.generate(self, im, width, height)
+        im = generator.generate(self, width, height)
 
         tf, tfname = mkstemp(suffix=".png")
 
