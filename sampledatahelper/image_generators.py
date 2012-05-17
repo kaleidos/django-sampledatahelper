@@ -58,23 +58,29 @@ class ImgPlasma(object):
 class ImgMandelbrot(object):
     def generate(self, sd, width, height):
         im = Image.new("RGBA", (width, height))
+        mtx = im.load()
 
         xa = sd.float(-2, 0)
         xb = sd.float(0, 2)
         ya = sd.float(-2, 0)
         yb = sd.float(0, 2)
         maxIt = 20 # max iterations allowed
+
+        #optimizations
+        lutx = [j * (xb-xa) / (width - 1) + xa for j in xrange(width)]
         
-        for y in range(height):
-            zy = y * (yb - ya) / (height - 1)  + ya
-            for x in range(width):
-                zx = x * (xb - xa) / (width - 1)  + xa
-                z = zx + zy * 1j
-                c = z
-                for i in range(maxIt):
+        for y in xrange(height):
+            cy = y * (yb - ya) / (height - 1)  + ya
+            for x in xrange(width):
+                c = complex(lutx[x], cy)
+                z = 0
+                for i in xrange(maxIt):
                     if abs(z) > 2.0: break 
-                    z = z * z + c
-                im.putpixel((x, y), (i % 4 * 64, i % 8 * 32, i % 16 * 16))
+                    z = z * z + c 
+                r = i % 4 * 64
+                g = i % 8 * 32
+                b = i % 16 * 16
+                mtx[x, y] =  r,g,b
         return im
 
 class ImgIFS(object):
