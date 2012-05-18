@@ -16,6 +16,11 @@ setup(
     license = 'BSD',
     include_package_data = True,
     packages = find_packages(),
+    package_data={
+        'sampledatahelper': [
+            'static/*',
+        ]
+    },
     install_requires=[
         'distribute',
     ],
