@@ -18,11 +18,9 @@ setup(
     packages = find_packages(),
     install_requires=[
         'distribute',
-        'django',
     ],
     setup_requires = [
         'versiontools >= 1.8',
-        'django',
     ],
     classifiers = [
         "Programming Language :: Python",
