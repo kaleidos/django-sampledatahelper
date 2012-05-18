@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 __version__ = (0, 0, 1, 'final', 0)
 
 import os
 import sys
-from django.contrib.webdesign import lorem_ipsum
+try:
+    from django.contrib.webdesign import lorem_ipsum
+except ImportError:
+    sys.exit()
+
 import datetime as dt
 import random
 import Image
