@@ -16,6 +16,7 @@ from django.utils.timezone import utc
 from tempfile import mkstemp
 from django.core.files.images import ImageFile
 from .image_generators import *
+from .name_generators import *
 
 class SampleDataHelper(object):
     def __init__(self, seed = None):
@@ -30,6 +31,11 @@ class SampleDataHelper(object):
     def word(self):
         """Random text with 1 word."""
         return lorem_ipsum.words(1, common=False)
+        
+    def words(self, min_words=1, max_words=5):
+        """Random text with 1 word."""
+        words = random.randint(min_words, max_words)
+        return lorem_ipsum.words(words, common=False)
         
     def email(self):
         """Random mail address."""
@@ -86,12 +92,14 @@ class SampleDataHelper(object):
         """Random number from 0 to ndigits, in string format, filled by 0s on the left."""
         return u''.join(random.choice(u'0123456789') for i in range(ndigits))
     
-    def name(self, min_words=5, max_words=5):
-        """Random text with from min_words to max_words words."""
-        if min_words == max_words:
-            return lorem_ipsum.words(min_words, common=False)
-        else:
-            return lorem_ipsum.words(random.randrange(min_words,max_words), common=False)
+    def name(self, locale=None, number=1, as_dict=False):
+        return Name().generate(self, locale, number, as_dict)
+
+    def surname(self, locale=None, number=1, as_dict=False):
+        return Surname().generate(self, locale, number, as_dict)
+
+    def fullname(self, locale=None, as_dict=False):
+        return FullName().generate(self, locale, as_dict)
 
     def slug(self, min_words=5, max_words=5):
         """Random slug"""
