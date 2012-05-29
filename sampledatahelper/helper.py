@@ -43,8 +43,10 @@ class SampleDataHelper(object):
                random.choice([u'.es', u'.com', u'.org', u'.net', u'.gov', u'.tk'])
     
     def int(self, *args, **kwargs):
-        """Random number from 0 to max_value - 1."""
+        """Random number from 0 or min_value to max_value - 1 or sys.maxint - 1."""
         if len(kwargs.keys()) > 0:
+            min_value = 0
+            max_value = sys.maxint
             if 'min_value' in kwargs.keys():
                 min_value = kwargs['min_value']
             if 'max_value' in kwargs.keys():
@@ -166,5 +168,5 @@ class SampleDataHelper(object):
         return ','.join(tags)
 
     def db_object(self, model):
-        count = model.objects.all.count()
+        count = model.objects.all().count()
         return model.objects.all()[self.int(max_value=count)]
