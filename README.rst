@@ -43,7 +43,7 @@ Available methods::
 
     word(): return a word
     email(): return an email
-    int(max_value, min_value): return an integer (default min_value = 0)
+    int(max_value, min_value): return an integer (default: min_value = 0, max_value = sys.maxint)
     province_code(): Return an spain province code
     sentence(): Return an sentence (max 255 caracters)
     paragraph(): Return a paragraph.
@@ -61,4 +61,5 @@ Available methods::
     date(begin=-365, end=365): A date between now+begin and now+end in days (default begin = -365, default end = 365)
     datetime(begin=-1440, end=1440): A datetime between now+begin and now+end in minutes (default begin = -1440, default end = 1440)
     tags(max_tags): Return a string with some tags separated by commas
-    db_object(model): Return an random object from the database
+    db_object(model): Return a random object from the database
+    db_object_from_queryset(queryset): Return a random object from the queryset
