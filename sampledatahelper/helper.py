@@ -170,3 +170,8 @@ class SampleDataHelper(object):
     def db_object(self, model):
         count = model.objects.all().count()
         return model.objects.all()[self.int(max_value=count)]
+    
+    def db_object_from_queryset(self, queryset):
+        count = queryset.all().count()
+        return queryset.all()[self.int(max_value=count)]
+
