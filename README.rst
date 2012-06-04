@@ -66,3 +66,6 @@ Available methods::
     tags(max_tags): Return a string with some tags separated by commas
     db_object(model): Return a random object from the database
     db_object_from_queryset(queryset): Return a random object from the queryset
+    phone(locale, country_code): Generate a phone number from a country with or without country code
+    zip_code(locale): Generate a zip code for a country
+    zip_code

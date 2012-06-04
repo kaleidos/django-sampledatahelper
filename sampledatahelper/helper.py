@@ -198,3 +198,23 @@ class SampleDataHelper(object):
         count = queryset.all().count()
         return queryset.all()[self.int(max_value=count)]
 
+    def phone(self, locale=None, country_code=False):
+        phone = ''
+        if locale == "es":
+            if country_code == True:
+                phone += "+34 "
+            phone += random.choice(['6','9'])
+            phone += str(self.int(10000000,99999999))
+            return phone
+        else:
+            # Only works with implemented locales
+            raise NotImplemented
+
+    def zip_code(self, locale=None):
+        zip_code = ''
+        if locale == "es":
+            zip_code = "%05d" % self.int(1000, 52999)
+            return zip_code
+        else:
+            # Only works with implemented locales
+            raise NotImplemented
