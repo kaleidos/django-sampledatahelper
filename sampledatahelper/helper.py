@@ -75,8 +75,25 @@ class SampleDataHelper(object):
         )
     
     def sentence(self):
-        """Random text with variable number of words, one sentence."""
-        return lorem_ipsum.sentence()[:255]
+        """Random sentence with text shorter than 255 characters."""
+        sentence = lorem_ipsum.sentence()
+        while len(sentence) >= 255:
+            sentence = lorem_ipsum.sentence()
+        return sentence
+
+    def short_sentence(self):
+        """Random sentence with text shorter than 100 characters."""
+        sentence = lorem_ipsum.sentence()
+        while len(sentence) >= 100:
+            sentence = lorem_ipsum.sentence()
+        return sentence
+
+    def long_sentence(self):
+        """Random sentence with text longer than 150 characters."""
+        sentence = lorem_ipsum.sentence()
+        while len(sentence) <= 150:
+            sentence = lorem_ipsum.sentence()
+        return sentence
     
     def paragraph(self):
         """Random text with variable number of words, several sentences."""
@@ -113,6 +130,13 @@ class SampleDataHelper(object):
     def choice(self, choices):
         return random.choice(choices)
     
+    def image_from_directory(self, directory_path, valid_extensions=['.jpg', '.bmp', '.png']):
+        list_of_images = os.listdir(directory_path)
+        list_of_images = filter(lambda x: os.path.splitext(x)[1] in valid_extensions, list_of_images)
+        random_path = os.path.join(directory_path, random.choice(list_of_images))
+        im_file = ImageFile(open(random_path, 'r'))
+        return im_file
+
     def image(self, width, height, typ="simple"):
         if typ == "simple":
             generator = ImgSimple()
