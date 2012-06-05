@@ -100,8 +100,12 @@ class SampleDataHelper(object):
         return lorem_ipsum.paragraph()    
     
     def number(self, ndigits):
-        """Random number from 0 to 999[with the given number of digits]."""
+        """Random number with the given number of digits as maximum."""
         return random.randrange(0, 10 ** ndigits)
+
+    def digits(self, ndigits):
+        """Random number with exactly the given number of digits."""
+        return random.randrange(10 ** (ndigits-1), 10 ** ndigits)
     
     def float(self, min, max):
         """Random float from min to max"""
@@ -215,6 +219,18 @@ class SampleDataHelper(object):
         if locale == "es":
             zip_code = "%05d" % self.int(1000, 52999)
             return zip_code
+        else:
+            # Only works with implemented locales
+            raise NotImplemented
+
+    def id_card(self, locale=None):
+        id_card = ''
+        if locale == "es":
+            id_card = "%05d" % self.int(1000, 52999)
+            id_card = self.number_string(8)
+            id_card_letters = "TRWAGMYFPDXBNJZSQVHLCKET"
+            id_card += id_card_letters[int(id_card) % 23]
+            return id_card
         else:
             # Only works with implemented locales
             raise NotImplemented

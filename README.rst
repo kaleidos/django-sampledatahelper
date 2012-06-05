@@ -49,9 +49,10 @@ Available methods::
     short_sentence(): Return an sentence (max 100 caracters)
     long_sentence(): Return an sentence (min 150 caracters)
     paragraph(): Return a paragraph.
-    number(ndigits): Return a number of n digits
+    number(ndigits): Return a number of n digits as max
+    digits(ndigits): Return a number of exactly n digits
     float(self, min, max): Return a float from min to max
-    number_string(self, ndigits): Return a numer of n digits in string format
+    number_string(self, ndigits): Return a number of n digits in string format
     name(min_words, max_words): Return a name between min_words and max_words words (default min_words = 5, default max_words = 5)
     slug(min_words, max_words): Return a slug between min_words and max_words words (default min_words = 5, default max_words = 5)
     boolean(): Returns a boolean value
@@ -68,4 +69,4 @@ Available methods::
     db_object_from_queryset(queryset): Return a random object from the queryset
     phone(locale, country_code): Generate a phone number from a country with or without country code
     zip_code(locale): Generate a zip code for a country
-    zip_code
+    id_card(locale): Generate a identification card code for a country
