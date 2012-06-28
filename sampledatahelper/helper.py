@@ -75,16 +75,37 @@ class SampleDataHelper(object):
         )
 
     def sentence(self):
-        """Random text with variable number of words, one sentence."""
-        return lorem_ipsum.sentence()[:255]
+        """Random sentence with text shorter than 255 characters."""
+        sentence = lorem_ipsum.sentence()
+        while len(sentence) >= 255:
+            sentence = lorem_ipsum.sentence()
+        return sentence
+
+    def short_sentence(self):
+        """Random sentence with text shorter than 100 characters."""
+        sentence = lorem_ipsum.sentence()
+        while len(sentence) >= 100:
+            sentence = lorem_ipsum.sentence()
+        return sentence
+
+    def long_sentence(self):
+        """Random sentence with text longer than 150 characters."""
+        sentence = lorem_ipsum.sentence()
+        while len(sentence) <= 150:
+            sentence = lorem_ipsum.sentence()
+        return sentence
 
     def paragraph(self):
         """Random text with variable number of words, several sentences."""
         return lorem_ipsum.paragraph()
 
     def number(self, ndigits):
-        """Random number from 0 to 999[with the given number of digits]."""
+        """Random number with the given number of digits as maximum."""
         return random.randrange(0, 10 ** ndigits)
+
+    def digits(self, ndigits):
+        """Random number with exactly the given number of digits."""
+        return random.randrange(10 ** (ndigits-1), 10 ** ndigits)
 
     def float(self, min, max):
         """Random float from min to max"""
@@ -112,6 +133,13 @@ class SampleDataHelper(object):
 
     def choice(self, choices):
         return random.choice(choices)
+
+    def image_from_directory(self, directory_path, valid_extensions=['.jpg', '.bmp', '.png']):
+        list_of_images = os.listdir(directory_path)
+        list_of_images = filter(lambda x: os.path.splitext(x)[1] in valid_extensions, list_of_images)
+        random_path = os.path.join(directory_path, random.choice(list_of_images))
+        im_file = ImageFile(open(random_path, 'r'))
+        return im_file
 
     def image(self, width, height, typ="simple"):
         if typ == "simple":
@@ -175,3 +203,35 @@ class SampleDataHelper(object):
         return queryset.all()[self.int(max_value=count)] if count > 0 else None
 
 
+    def phone(self, locale=None, country_code=False):
+        phone = ''
+        if locale == "es":
+            if country_code == True:
+                phone += "+34 "
+            phone += random.choice(['6','9'])
+            phone += str(self.int(10000000,99999999))
+            return phone
+        else:
+            # Only works with implemented locales
+            raise NotImplemented
+
+    def zip_code(self, locale=None):
+        zip_code = ''
+        if locale == "es":
+            zip_code = "%05d" % self.int(1000, 52999)
+            return zip_code
+        else:
+            # Only works with implemented locales
+            raise NotImplemented
+
+    def id_card(self, locale=None):
+        id_card = ''
+        if locale == "es":
+            id_card = "%05d" % self.int(1000, 52999)
+            id_card = self.number_string(8)
+            id_card_letters = "TRWAGMYFPDXBNJZSQVHLCKET"
+            id_card += id_card_letters[int(id_card) % 23]
+            return id_card
+        else:
+            # Only works with implemented locales
+            raise NotImplemented
