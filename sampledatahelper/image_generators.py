@@ -1,6 +1,6 @@
 import math
 from PIL import Image, ImageDraw
-            
+
 class ImgSimple(object):
     def generate(self, sd, width, height):
         im = Image.new("RGBA", (width, height))
@@ -27,7 +27,7 @@ class ImgPlasma(object):
         self.subdivide(0,0,width-1,height-1)
         self.im = self.im.convert("RGBA")
         return Image.blend(self.im, bg, 0.5)
-        
+
     def adjust(self, xa, ya, x, y, xb, yb):
         if(self.im.getpixel((x,y)) == 0):
           d=math.fabs(xa-xb) + math.fabs(ya-yb)
@@ -35,7 +35,7 @@ class ImgPlasma(object):
              + (self.sd.float(0, 1)-0.5) * d * self.roughness
           c=int(math.fabs(v) % 256)
           self.im.putpixel((x,y), c)
-    
+
     def subdivide(self, x1, y1, x2, y2):
         if(not((x2-x1 < 2.0) and (y2-y1 < 2.0))):
             x=int((x1 + x2)/2.0)
@@ -48,7 +48,7 @@ class ImgPlasma(object):
                 v=int((self.im.getpixel((x1,y1)) + self.im.getpixel((x2,y1)) \
                    + self.im.getpixel((x2,y2)) + self.im.getpixel((x1,y2)))/4.0)
                 self.im.putpixel((x,y),v)
-    
+
             self.subdivide(x1,y1,x,y)
             self.subdivide(x,y1,x2,y)
             self.subdivide(x,y,x2,y2)
@@ -68,15 +68,15 @@ class ImgMandelbrot(object):
 
         #optimizations
         lutx = [j * (xb-xa) / (width - 1) + xa for j in xrange(width)]
-        
+
         for y in xrange(height):
             cy = y * (yb - ya) / (height - 1)  + ya
             for x in xrange(width):
                 c = complex(lutx[x], cy)
                 z = 0
                 for i in xrange(maxIt):
-                    if abs(z) > 2.0: break 
-                    z = z * z + c 
+                    if abs(z) > 2.0: break
+                    z = z * z + c
                 r = i % 4 * 64
                 g = i % 8 * 32
                 b = i % 16 * 16
@@ -114,17 +114,17 @@ class ImgIFS(object):
         # image size
         imgx = width
         imgy = height
-        
+
         m = len(mat)
         # find the xmin, xmax, ymin, ymax
         x = mat[0][4]
-        y = mat[0][5] 
+        y = mat[0][5]
         #
         xa = x
         xb = x
         ya = y
         yb = y
-        # 
+        #
         for k in range(imgx * imgy):
             p=sd.float(0, 1)
             psum = 0.0
@@ -132,9 +132,9 @@ class ImgIFS(object):
                 psum += mat[i][6]
                 if p <= psum:
                     break
-            x0 = x * mat[i][0] + y * mat[i][1] + mat[i][4] 
-            y  = x * mat[i][2] + y * mat[i][3] + mat[i][5] 
-            x = x0 
+            x0 = x * mat[i][0] + y * mat[i][1] + mat[i][4]
+            y  = x * mat[i][2] + y * mat[i][3] + mat[i][5]
+            x = x0
             #
             if x < xa:
                 xa = x
@@ -144,10 +144,10 @@ class ImgIFS(object):
                 ya = y
             if y > yb:
                 yb = y
-        
+
         # drawing
         x=0.0
-        y=0.0 
+        y=0.0
         colour = (sd.int(255), sd.int(255), sd.int(255))
         for k in range(imgx * imgy):
             p=sd.float(0, 1)
@@ -156,13 +156,13 @@ class ImgIFS(object):
                 psum += mat[i][6]
                 if p <= psum:
                     break
-            x0 = x * mat[i][0] + y * mat[i][1] + mat[i][4] 
-            y  = x * mat[i][2] + y * mat[i][3] + mat[i][5] 
-            x = x0 
-            jx = int((x - xa) / (xb - xa) * (imgx - 1)) 
+            x0 = x * mat[i][0] + y * mat[i][1] + mat[i][4]
+            y  = x * mat[i][2] + y * mat[i][3] + mat[i][5]
+            x = x0
+            jx = int((x - xa) / (xb - xa) * (imgx - 1))
             jy = (imgy - 1) - int((y - ya) / (yb - ya) * (imgy - 1))
             if jx >= 0 and jx < width and jy >= 0 and jy < height:
-                im.putpixel((jx, jy), colour) 
+                im.putpixel((jx, jy), colour)
         im = im.rotate(sd.int(360))
         bg.paste(im, (0,0), im)
         return bg

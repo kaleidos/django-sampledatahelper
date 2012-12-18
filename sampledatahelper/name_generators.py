@@ -16,7 +16,7 @@ class Name(object):
             return result
         else:
             return ' '.join(result)
-        
+
 
 class Surname(object):
     def generate(self, sd, locale=None, number=1, as_dict=False):
