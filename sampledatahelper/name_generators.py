@@ -1,5 +1,4 @@
 import math
-from PIL import Image, ImageDraw
 from sampledatahelper import namedicts
 
 class Name(object):

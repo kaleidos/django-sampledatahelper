@@ -10,11 +10,16 @@ except ImportError:
 
 import datetime as dt
 import random
-from PIL import ImageDraw, ImageFont, Image
+
 from django.utils.timezone import utc
 from tempfile import mkstemp
 from django.core.files.images import ImageFile
-from .image_generators import *
+try:
+    from .image_generators import *
+    PIL_INSTALLED = True
+except ImportError:
+    PIL_INSTALLED = False
+
 from .name_generators import *
 
 class SampleDataHelper(object):
@@ -23,7 +28,6 @@ class SampleDataHelper(object):
             random.seed(seed)
         self.app_directory = os.path.dirname(os.path.abspath(__file__))
         self.tags_list = []
-        self.ttf_font = ImageFont.truetype(self.app_directory+"/static/font.ttf", 80)
 
         self.images_cache = {}
 
@@ -141,6 +145,9 @@ class SampleDataHelper(object):
         return im_file
 
     def image(self, width, height, typ="simple"):
+        if not PIL_INSTALLED:
+            raise Exception("PIL needed to use this function")
+
         if typ == "simple":
             generator = ImgSimple()
         elif typ == "plasma":
@@ -164,6 +171,13 @@ class SampleDataHelper(object):
 
         return im_file
 
+    def date_between(self, min_date, max_date):
+        """Random date between a min_date and a max_date."""
+        delta = max_date - min_date
+        int_delta = delta.days
+        random_day = self.int(int_delta)
+        return min_date + dt.timedelta(days=random_day)
+
     def future_date(self, min_distance=0, max_distance=365):
         """Random date between today and today + one year - one day."""
         return dt.date.today() + dt.timedelta(random.randrange(min_distance, max_distance))
@@ -171,6 +185,13 @@ class SampleDataHelper(object):
     def past_date(self, min_distance=0, max_distance=365):
         """Random date between today and today + one year - one day."""
         return dt.date.today() - dt.timedelta(random.randrange(min_distance, max_distance))
+
+    def datetime_between(self, min_datetime, max_datetime):
+        """Random datetime between a min datetime and a max datetime."""
+        delta = max_datetime - min_datetime
+        int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+        random_second = self.int(int_delta)
+        return min_datetime + dt.timedelta(seconds=random_second)
 
     def future_datetime(self, min_distance=0, max_distance=1440):
         """Random date between today and today + one year - one day."""
