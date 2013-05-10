@@ -10,8 +10,7 @@ except ImportError:
 
 import datetime as dt
 import random
-import Image
-import ImageDraw, ImageFont
+from PIL import ImageDraw, ImageFont, Image
 from django.utils.timezone import utc
 from tempfile import mkstemp
 from django.core.files.images import ImageFile
