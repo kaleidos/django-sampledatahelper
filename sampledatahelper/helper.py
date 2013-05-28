@@ -66,16 +66,19 @@ class SampleDataHelper(object):
                 max_value = args[1]
         return random.randrange(min_value, max_value)
 
-    def province_code(self):
+    def state_code(self, locale):
         """Random province code."""
-        return random.choice(
-            ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
-             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-             '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
-             '31', '32', '33', '34', '35', '36', '37', '38', '39', '40',
-             '41', '42', '43', '44', '45', '46', '47', '48', '49', '50',
-             '51', '52', 'AD', ]
-        )
+        if locale == "es_ES"
+            return random.choice(
+                ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+                 '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+                 '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
+                 '31', '32', '33', '34', '35', '36', '37', '38', '39', '40',
+                 '41', '42', '43', '44', '45', '46', '47', '48', '49', '50',
+                 '51', '52', 'AD', ]
+            )
+        else:
+            raise Exception("Unknown locale")
 
     def sentence(self):
         """Random sentence with text shorter than 255 characters."""
@@ -118,14 +121,14 @@ class SampleDataHelper(object):
         """Random number from 0 to ndigits, in string format, filled by 0s on the left."""
         return u''.join(random.choice(u'0123456789') for i in range(ndigits))
 
-    def name(self, locale=None, number=1, as_dict=False):
-        return Name().generate(self, locale, number, as_dict)
+    def name(self, locale=None, number=1, as_list=False):
+        return Name().generate(self, locale, number, as_list)
 
-    def surname(self, locale=None, number=1, as_dict=False):
-        return Surname().generate(self, locale, number, as_dict)
+    def surname(self, locale=None, number=1, as_list=False):
+        return Surname().generate(self, locale, number, as_list)
 
-    def fullname(self, locale=None, as_dict=False):
-        return FullName().generate(self, locale, as_dict)
+    def fullname(self, locale=None, as_list=False):
+        return FullName().generate(self, locale, as_list)
 
     def slug(self, min_words=5, max_words=5):
         """Random slug"""

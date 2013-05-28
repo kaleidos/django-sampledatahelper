@@ -39,34 +39,100 @@ Sample data command for generate instances of MyModel::
 SampleDataHelper Methods
 ------------------------
 
-Available methods::
+Available methods:
 
-    word(): return a word
-    email(): return an email
-    int(max_value, min_value): return an integer (default: min_value = 0, max_value = sys.maxint)
-    province_code(): Return an spain province code
-    sentence(): Return an sentence (max 255 caracters)
-    short_sentence(): Return an sentence (max 100 caracters)
-    long_sentence(): Return an sentence (min 150 caracters)
-    paragraph(): Return a paragraph.
-    number(ndigits): Return a number of n digits as max
-    digits(ndigits): Return a number of exactly n digits
-    float(self, min, max): Return a float from min to max
-    number_string(self, ndigits): Return a number of n digits in string format
-    name(min_words, max_words): Return a name between min_words and max_words words (default min_words = 5, default max_words = 5)
-    slug(min_words, max_words): Return a slug between min_words and max_words words (default min_words = 5, default max_words = 5)
-    boolean(): Returns a boolean value
-    image(width, height): Return an image of WIDTHxHEIGHT size
-    image_from_directory(directory_path, valid_extensions=['.jpg', '.bmp', '.png']): Return an image from a directory with a valid extension
-    future_date(min_distance=0, max_distance=365): A future date between now+min_distance and now+max_distance in days (default begin = 0, default end = 365)
-    past_date(min_distance=0, max_distance=365): A past date between now+max_distance and now+min_distance in days (default begin = 0, default end = 365)
-    future_datetime(min_distance=0, max_distance=1440): A future datetime between now+min_distance and now+max_distance in minutes (default begin = 0, default end = 1440)
-    past_datetime(min_distance=0, max_distance=1440): A past datetime between now+max_distance and now+min_distance in minutes (default begin = 0, default end = 1440)
-    date(begin=-365, end=365): A date between now+begin and now+end in days (default begin = -365, default end = 365)
-    datetime(begin=-1440, end=1440): A datetime between now+begin and now+end in minutes (default begin = -1440, default end = 1440)
-    tags(max_tags): Return a string with some tags separated by commas
-    db_object(model): Return a random object from the database
-    db_object_from_queryset(queryset): Return a random object from the queryset
-    phone(locale, country_code): Generate a phone number from a country with or without country code
-    zip_code(locale): Generate a zip code for a country
-    id_card(locale): Generate a identification card code for a country
++----------------------------------------------------+--------------------------------------+
+| Method                                             | return                               |
++====================================================+======================================+
+| word()                                             | a word                               |
++----------------------------------------------------+--------------------------------------+
+| words(min_words=1, max_words=5)                    | a string with n words                |
++----------------------------------------------------+--------------------------------------+
+| email()                                            | an email                             |
++----------------------------------------------------+--------------------------------------+
+| int(max_value=sys.maxint, min_value=0)             | an integer between min and max value |
++----------------------------------------------------+--------------------------------------+
+| state_code(locale)                                 | a state code for the locale country  |
++----------------------------------------------------+--------------------------------------+
+| sentence()                                         | a sentence (max 255 caracters)       |
++----------------------------------------------------+--------------------------------------+
+| short_sentence()                                   | a sentence (max 100 caracters)       |
++----------------------------------------------------+--------------------------------------+
+| long_sentence()                                    | a sentence (min 150 caracters)       |
++----------------------------------------------------+--------------------------------------+
+| paragraph()                                        | a paragraph                          |
++----------------------------------------------------+--------------------------------------+
+| number(ndigits)                                    | a number of n digits as max          |
++----------------------------------------------------+--------------------------------------+
+| digits(ndigits)                                    | a number of exactly n digits         |
++----------------------------------------------------+--------------------------------------+
+| float(self, min, max)                              | a float from min to max              |
++----------------------------------------------------+--------------------------------------+
+| number_string(self, ndigits)                       | a string of n digits                 |
++----------------------------------------------------+--------------------------------------+
+| name(locale=None, number=1, as_list=False)         | a string or list of tipical names    |
+|                                                    | from locale using n names (compound  |
+|                                                    | names)                               |
++----------------------------------------------------+--------------------------------------+
+| surname(locale=None, number=1, as_list=False)      | a string or list of tipical surnames |
+|                                                    | from locale using n surnames         |
++----------------------------------------------------+--------------------------------------+
+| fullname(locale=None, as_list=False)               | a string or list of tipical          |
+|                                                    | names+surnames from locale           |
++----------------------------------------------------+--------------------------------------+
+| slug(min_words=5, max_words=5)                     | a slug between min_words and         |
+|                                                    | max_words words                      |
++----------------------------------------------------+--------------------------------------+
+| boolean()                                          | a boolean value                      |
++----------------------------------------------------+--------------------------------------+
+| choice(choices)                                    | a value from a list                  |
++----------------------------------------------------+--------------------------------------+
+| image(width, height, typ="simple")                 | an image of WIDTHxHEIGHT size        |
+|                                                    | generated with the typ generator     |
++----------------------------------------------------+--------------------------------------+
+| image_from_directory(directory_path,               | an image from a directory with a     |
+| valid_extensions=['.jpg', '.bmp', '.png'])         | valid extension                      |
++----------------------------------------------------+--------------------------------------+
+| date_between(min_date, max_date)                   | a date between the min_date and      |
+|                                                    | max_date date objects                |
++----------------------------------------------------+--------------------------------------+
+| future_date(min_distance=0, max_distance=365)      | a future date between                |
+|                                                    | now+min_distance and                 |
+|                                                    | now+max_distance in days             |
++----------------------------------------------------+--------------------------------------+
+| past_date(min_distance=0, max_distance=365)        | a past date between                  |
+|                                                    | now-max_distance and                 |
+|                                                    | now-min_distance in days             |
++----------------------------------------------------+--------------------------------------+
+| datetime_between(min_datetime, max_datetime)       | a datetime between the min_datetime  |
+|                                                    | and max_datetime datetime objects    |
++----------------------------------------------------+--------------------------------------+
+| future_datetime(min_distance=0, max_distance=1440) | a future datetime between            |
+|                                                    | now+min_distance and                 |
+|                                                    | now+max_distance in minutes          |
++----------------------------------------------------+--------------------------------------+
+| past_datetime(min_distance=0, max_distance=1440)   | a past datetime between              |
+|                                                    | now-max_distance and                 |
+|                                                    | now-min_distance in minutes          |
++----------------------------------------------------+--------------------------------------+
+| date(begin=-365, end=365)                          | a date between now+begin and now+end |
+|                                                    | in days                              |
++----------------------------------------------------+--------------------------------------+
+| datetime(begin=-1440, end=1440)                    | a datetime between now+begin and     |
+|                                                    | now+end in minutes                   |
++----------------------------------------------------+--------------------------------------+
+| tags(max_tags)                                     | a string with some tags separated    |
+|                                                    | by commas                            |
++----------------------------------------------------+--------------------------------------+
+| db_object(model)                                   | a random object from the model       |
++----------------------------------------------------+--------------------------------------+
+| db_object_from_queryset(queryset)                  | a random object from the queryset    |
++----------------------------------------------------+--------------------------------------+
+| phone(locale, country_code)                        | a phone number from a country with   |
+|                                                    | or without country code              |
++----------------------------------------------------+--------------------------------------+
+| zip_code(locale)                                   | a zip code for a country             |
++----------------------------------------------------+--------------------------------------+
+| id_card(locale)                                    | a identification card code for a     |
+|                                                    | country                              |
++----------------------------------------------------+--------------------------------------+

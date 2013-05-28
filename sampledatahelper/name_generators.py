@@ -2,7 +2,7 @@ import math
 from sampledatahelper import namedicts
 
 class Name(object):
-    def generate(self, sd, locale=None, number=1, as_dict=False):
+    def generate(self, sd, locale=None, number=1, as_list=False):
         if locale:
             names = namedicts.get_names(locale)
         else:
@@ -11,14 +11,14 @@ class Name(object):
         result = []
         for x in range(number):
             result.append(sd.choice(names))
-        if as_dict:
+        if as_list:
             return result
         else:
             return ' '.join(result)
 
 
 class Surname(object):
-    def generate(self, sd, locale=None, number=1, as_dict=False):
+    def generate(self, sd, locale=None, number=1, as_list=False):
         if locale:
             surnames = namedicts.get_surnames(locale)
         else:
@@ -28,13 +28,13 @@ class Surname(object):
         for x in range(number):
             result.append(sd.choice(surnames))
 
-        if as_dict:
+        if as_list:
             return result
         else:
             return ' '.join(result)
 
 class FullName(object):
-    def generate(self, sd, locale=None, as_dict=False):
+    def generate(self, sd, locale=None, as_list=False):
         sngen = Surname()
         ngen = Name()
         if locale:
@@ -46,7 +46,7 @@ class FullName(object):
         names = ngen.generate(sd, locale, names_number, True)
         surnames = sngen.generate(sd, locale, surnames_number, True)
 
-        if as_dict:
+        if as_list:
             return names+surnames
         else:
             return ' '.join(names+surnames)
