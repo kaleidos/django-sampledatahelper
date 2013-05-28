@@ -68,7 +68,7 @@ class SampleDataHelper(object):
 
     def state_code(self, locale):
         """Random province code."""
-        if locale == "es_ES"
+        if locale == "es":
             return random.choice(
                 ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
                  '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
@@ -78,7 +78,7 @@ class SampleDataHelper(object):
                  '51', '52', 'AD', ]
             )
         else:
-            raise Exception("Unknown locale")
+            raise Exception("Not valid locale")
 
     def sentence(self):
         """Random sentence with text shorter than 255 characters."""

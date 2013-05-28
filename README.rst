@@ -10,7 +10,7 @@ Sample data command for generate instances of MyModel::
 
   from django.core.management.base import BaseCommand, CommandError
   from myapp.models import MyModel
-  from sampledatahelper import SampleDataHelper
+  from sampledatahelper.helper import SampleDataHelper
   
   class Command(BaseCommand):
       args = ''
