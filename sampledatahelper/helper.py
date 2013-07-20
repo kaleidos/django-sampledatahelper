@@ -40,10 +40,29 @@ class SampleDataHelper(object):
         words = random.randint(min_words, max_words)
         return lorem_ipsum.words(words, common=False)
 
+    def char(self):
+        """Random character."""
+        return random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+
+    def chars(self, min_chars=1, max_chars=5):
+        """Random text with 1 word."""
+        chars = random.randint(min_chars, max_chars)
+        result = ''
+        for _ in range(chars):
+            result += self.char()
+        return result
+
     def email(self):
         """Random mail address."""
         return lorem_ipsum.words(1, common=False) + u'@' + lorem_ipsum.words(1, common=False) + \
                random.choice([u'.es', u'.com', u'.org', u'.net', u'.gov', u'.tk'])
+
+    def url(self):
+        """Random url."""
+        protocol = random.choice(["http", "https"])
+        domain = self.word() + random.choice([u'.es', u'.com', u'.org', u'.net', u'.gov', u'.tk'])
+        path = self.word()
+        return "%s://%s/%s" % (protocol, domain, path)
 
     def int(self, *args, **kwargs):
         """Random number from 0 or min_value to max_value - 1 or sys.maxint - 1."""
@@ -217,6 +236,12 @@ class SampleDataHelper(object):
         for i in range(random.randrange(0, max_tags)):
             tags.append(self.tags_list[random.randrange(0, len(self.tags_list))])
         return ','.join(tags)
+
+    def choices_key(self, choices):
+        try:
+            return self.choice(choices)[0]
+        except ValueError:
+            return None
 
     def db_object(self, model):
         return self.db_object_from_queryset(model.objects.all())
