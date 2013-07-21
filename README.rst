@@ -1,6 +1,9 @@
 Django Sample Data Helper
 =========================
 
+.. image:: http://kaleidos.net/static/img/badge.png
+    :target: http://www.kaleidos.net/community/django-tint/
+
 .. image:: https://pypip.in/v/django-sampledatahelper/badge.png
     :target: https://crate.io/packages/django-sampledatahelper
 
