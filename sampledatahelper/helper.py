@@ -231,7 +231,7 @@ class SampleDataHelper(object):
         """Random date between today - one year and today + one year."""
         return dt.datetime.utcnow().replace(tzinfo=utc) - dt.timedelta(minutes=random.randrange(begin, end))
 
-    def tags(self, max_tags):
+    def tags(self, max_tags=5):
         tags = []
         for i in range(random.randrange(0, max_tags)):
             tags.append(self.tags_list[random.randrange(0, len(self.tags_list))])
