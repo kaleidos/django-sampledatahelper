@@ -47,4 +47,4 @@ Sample data command for generate instances of MyModel::
 Documentation
 -------------
 
-Read the Docs: https://django-sampledatahelper.readthedocs.org/en/latest/
+Read the Docs: https://django-sample-data-helper.readthedocs.org/en/latest/
