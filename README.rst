@@ -1,6 +1,12 @@
 Django Sample Data Helper
 =========================
 
+.. image:: https://pypip.in/v/django-sampledatahelper/badge.png
+    :target: https://crate.io/packages/django-sampledatahelper
+
+.. image:: https://pypip.in/d/django-sampledatahelper/badge.png
+    :target: https://crate.io/packages/django-sampledatahelper
+
 Helper class to create django sample data.
 
 Example
@@ -15,7 +21,6 @@ Sample data command for generate instances of MyModel::
   class Command(BaseCommand):
       args = ''
       help = 'Example data generator'
-      sd = None
   
       def handle(self, *args, **options):
           sd = SampleDataHelper(seed=12345678901)
@@ -28,7 +33,7 @@ Sample data command for generate instances of MyModel::
                       name=sd.name(2, 3)
                       claim=sd.sentence(),
                       description=sd.paragraph(),
-                      email=sd.email(), 
+                      email=sd.email(),
                       photo=sd.image(64, 64),
                       is_active=sd.boolean(),
                       birth_date=sd.past_date(),
@@ -44,11 +49,18 @@ Available methods:
 +----------------------------------------------------+--------------------------------------+
 | Method                                             | return                               |
 +====================================================+======================================+
+| char()                                             | a character on A-Z and a-z           |
++----------------------------------------------------+--------------------------------------+
+| chars(min_chars=1, max_chars=5)                    | a string with n characters on A-Z    |
+|                                                    | and a-z                              |
++----------------------------------------------------+--------------------------------------+
 | word()                                             | a word                               |
 +----------------------------------------------------+--------------------------------------+
 | words(min_words=1, max_words=5)                    | a string with n words                |
 +----------------------------------------------------+--------------------------------------+
 | email()                                            | an email                             |
++----------------------------------------------------+--------------------------------------+
+| url()                                              | an url                               |
 +----------------------------------------------------+--------------------------------------+
 | int(max_value=sys.maxint, min_value=0)             | an integer between min and max value |
 +----------------------------------------------------+--------------------------------------+
@@ -86,6 +98,8 @@ Available methods:
 | boolean()                                          | a boolean value                      |
 +----------------------------------------------------+--------------------------------------+
 | choice(choices)                                    | a value from a list                  |
++----------------------------------------------------+--------------------------------------+
+| choices_key(choices)                               | a key from a django choices list     |
 +----------------------------------------------------+--------------------------------------+
 | image(width, height, typ="simple")                 | an image of WIDTHxHEIGHT size        |
 |                                                    | generated with the typ generator     |
