@@ -1,9 +1,9 @@
 import random
 
-from .name_generators import Name, Surname, FullName
+from sampledatahelper.name_generators import Name, Surname, FullName
 
 
-class LocalizedHelper(object):
+class LocalizedMixin(object):
     def state_code(self, locale):
         """Random province code."""
         if locale == "es":

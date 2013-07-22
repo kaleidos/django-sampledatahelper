@@ -74,6 +74,6 @@ class TextMixin(object):
         for i in range(random.randrange(0, max_tags)):
             if tags_list:
                 tags.append(tags_list[random.randrange(0, len(tags_list))])
-            else
+            else:
                 tags.append(self.word())
         return ','.join(tags)
