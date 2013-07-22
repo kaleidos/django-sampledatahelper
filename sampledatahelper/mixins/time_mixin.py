@@ -1,0 +1,43 @@
+import datetime as dt
+import random
+from django.utils.timezone import utc
+
+
+class TimeMixin(object):
+    def date_between(self, min_date, max_date):
+        """Random date between a min_date and a max_date."""
+        delta = max_date - min_date
+        int_delta = delta.days
+        random_day = self.int(int_delta)
+        return min_date + dt.timedelta(days=random_day)
+
+    def future_date(self, min_distance=0, max_distance=365):
+        """Random date between today and today + one year - one day."""
+        return dt.date.today() + dt.timedelta(random.randrange(min_distance, max_distance))
+
+    def past_date(self, min_distance=0, max_distance=365):
+        """Random date between today and today + one year - one day."""
+        return dt.date.today() - dt.timedelta(random.randrange(min_distance, max_distance))
+
+    def datetime_between(self, min_datetime, max_datetime):
+        """Random datetime between a min datetime and a max datetime."""
+        delta = max_datetime - min_datetime
+        int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+        random_second = self.int(int_delta)
+        return min_datetime + dt.timedelta(seconds=random_second)
+
+    def future_datetime(self, min_distance=0, max_distance=1440):
+        """Random date between today and today + one year - one day."""
+        return dt.datetime.utcnow().replace(tzinfo=utc) + dt.timedelta(minutes=random.randrange(min_distance, max_distance))
+
+    def past_datetime(self, min_distance=0, max_distance=1440):
+        """Random date between today and today + one year - one day."""
+        return dt.datetime.utcnow().replace(tzinfo=utc) - dt.timedelta(minutes=random.randrange(min_distance, max_distance))
+
+    def date(self, begin=-365, end=365):
+        """Random date between today - one year and today + one year."""
+        return dt.date.today() - dt.timedelta(random.randrange(begin, end))
+
+    def datetime(self, begin=-1440, end=1440):
+        """Random date between today - one year and today + one year."""
+        return dt.datetime.utcnow().replace(tzinfo=utc) - dt.timedelta(minutes=random.randrange(begin, end))

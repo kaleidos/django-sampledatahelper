@@ -34,7 +34,7 @@ Text methods
 .. function:: chars(min_chars=1, max_chars=5)
 
     Return a string with n characters between A-Z and a-z being
-    :code:`min_chars <= n <= max_chars`
+    min_chars <= n <= max_chars
 
 .. function:: word()
 
@@ -43,7 +43,7 @@ Text methods
 .. function:: words(min_words=1, max_words=5)
 
     Return a string with n lorem ipsum words being
-    :code:`min_words <= n <= max_words`
+    min_words <= n <= max_words
 
 .. function:: email()
 
@@ -72,15 +72,19 @@ Text methods
 .. function:: slug(min_words=5, max_words=5)
 
     Return a lorem ipsum slug between with n words being
-    :code:`min_words <= n <= max_words`
+    min_words <= n <= max_words
 
-.. function:: tags(max_tags=5)
+.. function:: tags(max_tags=5, tags_list=None)
 
-    Return a string of lorem ipsum tags separated by commas with a max number
-    of tags
+    Return a string of tags_list or lorem ipsum tags separated by commas with a
+    max number of tags
 
 Time methods
 ------------
+
+.. function:: date(begin=-365, end=365)
+
+    Return a date between now+begin and now+end in days
 
 .. function:: date_between(min_date, max_date)
 
@@ -94,6 +98,10 @@ Time methods
 
     Return a past date between now-max_distance and now-min_distance in days
 
+.. function:: datetime(begin=-1440, end=1440)
+
+    Return a datetime between now+begin and now+end in minutes
+
 .. function:: datetime_between(min_datetime, max_datetime)
 
     Return a datetime between the min_datetime and max_datetime datetime objects
@@ -106,22 +114,8 @@ Time methods
 
     Return a past datetime between now-max_distance and now-min_distance in minutes
 
-.. function:: date(begin=-365, end=365)
-
-    Return a date between now+begin and now+end in days
-
-.. function:: datetime(begin=-1440, end=1440)
-
-    Return a datetime between now+begin and now+end in minutes
-
 Localized methods
 -----------------
-
-.. function:: state_code(locale)
-
-    Return a state code for the locale country.
-
-    Supported locales: es
 
 .. function:: name(locale=None, number=1, as_list=False)
 
@@ -150,6 +144,12 @@ Localized methods
 .. function:: zip_code(locale)
 
     Return a zip code for a country
+
+    Supported locales: es
+
+.. function:: state_code(locale)
+
+    Return a state code for the locale country.
 
     Supported locales: es
 
