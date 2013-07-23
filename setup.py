@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 from setuptools import setup, find_packages
-import sampledatahelper
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.settings'
 
 setup(
     name = 'django-sampledatahelper',
@@ -27,6 +29,8 @@ setup(
     setup_requires = [
         'versiontools >= 1.8',
     ],
+    test_suite = 'nose.collector',
+    tests_require = ['nose >= 1.2.1', 'django >= 1.3.0'],
     classifiers = [
         "Programming Language :: Python",
         'Development Status :: 4 - Beta',

@@ -1,5 +1,8 @@
 import sys
 import random
+import string
+from ..exceptions import ParameterError
+
 try:
     from django.contrib.webdesign import lorem_ipsum
 except ImportError:
@@ -13,15 +16,23 @@ class TextMixin(object):
 
     def words(self, min_words=1, max_words=5):
         """Random text with 1 word."""
+
+        if min_words > max_words:
+            raise ParameterError('min_words greater than max_words')
+
         words = random.randint(min_words, max_words)
         return lorem_ipsum.words(words, common=False)
 
     def char(self):
         """Random character."""
-        return random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+        return random.choice(string.letters)
 
     def chars(self, min_chars=1, max_chars=5):
         """Random text with 1 word."""
+
+        if min_chars > max_chars:
+            raise ParameterError('min_chars greater than max_chars')
+
         chars = random.randint(min_chars, max_chars)
         result = ''
         for _ in range(chars):
@@ -65,13 +76,28 @@ class TextMixin(object):
         """Random text with variable number of words, several sentences."""
         return lorem_ipsum.paragraph()
 
+    def paragraphs(self, min_paragraphs=1, max_paragraphs=5):
+        """Random text with variable number of words, several sentences."""
+
+        if min_paragraphs > max_paragraphs:
+            raise ParameterError('min_paragraphs greater than max_paragraphs')
+
+        return "\n\n".join(lorem_ipsum.paragraphs(random.randrange(min_paragraphs, max_paragraphs+1)))
+
     def slug(self, min_words=5, max_words=5):
         """Random slug"""
+
+        if min_words > max_words:
+            raise ParameterError('min_words greater than max_words')
+
         return "-".join([self.word() for x in range(self.int(max_value=max_words, min_value=min_words))])
 
-    def tags(self, max_tags=5, tags_list=None):
+    def tags(self, min_tags=1, max_tags=5, tags_list=None):
+        if min_tags > max_tags:
+            raise ParameterError('min_tags greater than max_tags')
+
         tags = []
-        for i in range(random.randrange(0, max_tags)):
+        for i in range(random.randrange(min_tags, max_tags+1)):
             if tags_list:
                 tags.append(tags_list[random.randrange(0, len(tags_list))])
             else:

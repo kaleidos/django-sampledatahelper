@@ -4,7 +4,7 @@ API
 Number methods
 --------------
 
-.. function:: int(max_value=sys.maxint, min_value=0)
+.. function:: int(min_value=0, max_value=sys.maxint)
 
     Return an integer between min_value and max_value
 
@@ -69,15 +69,20 @@ Text methods
 
     Return a lorem ipsum paragraph
 
+.. function:: paragraphs(min_paragraphs=1, max_paragraphs=5)
+
+    Return a lorem ipsum text with n paragraphs being
+    min_paragraphs <= n <= max_paragraphs
+
 .. function:: slug(min_words=5, max_words=5)
 
     Return a lorem ipsum slug between with n words being
     min_words <= n <= max_words
 
-.. function:: tags(max_tags=5, tags_list=None)
+.. function:: tags(min_tags=1, max_tags=5, tags_list=None)
 
-    Return a string of tags_list or lorem ipsum tags separated by commas with a
-    max number of tags
+    Return a string of n tags_list or lorem ipsum tags separated by commas
+    being n max min_tags <= n <= max_tags
 
 Time methods
 ------------
