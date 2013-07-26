@@ -1,5 +1,6 @@
 from django.utils import unittest
 from django.core.validators import validate_email, validate_slug, URLValidator
+from django.utils.timezone import utc
 
 import string
 import datetime
@@ -184,8 +185,8 @@ class TestTimeHelpers(unittest.TestCase):
 
     def test_date_between(self):
         value = self.sd.date_between(
-                datetime.date(year=2000, month=1, day=1),
-                datetime.date(year=2001, month=1, day=1),
+            datetime.date(year=2000, month=1, day=1),
+            datetime.date(year=2001, month=1, day=1),
         )
         self.assertTrue(isinstance(value, datetime.date))
         self.assertTrue(value > datetime.date(year=2000, month=1, day=1))
@@ -193,20 +194,48 @@ class TestTimeHelpers(unittest.TestCase):
 
         with self.assertRaises(ParameterError):
             self.sd.date_between(
-                    datetime.date(year=2001, month=1, day=1),
-                    datetime.date(year=2000, month=1, day=1),
+                datetime.date(year=2001, month=1, day=1),
+                datetime.date(year=2000, month=1, day=1),
             )
 
-    #def test_future_date(self, min_distance=0, max_distance=365):
-    #    pass
+    def test_future_date(self, min_distance=0, max_distance=365):
+        value = self.sd.future_date()
+        self.assertTrue(isinstance(value, datetime.date))
 
-    #def test_past_date(self, min_distance=0, max_distance=365):
-    #    pass
+        self.assertTrue(value >= datetime.date.today())
+        self.assertTrue(value <= (datetime.date.today() + datetime.timedelta(days=365)))
+
+        value = self.sd.future_date(0, 10)
+        self.assertTrue(value >= datetime.date.today())
+        self.assertTrue(value <= (datetime.date.today() + datetime.timedelta(days=10)))
+
+        with self.assertRaises(ParameterError):
+            self.sd.future_date(100, 0)
+
+        with self.assertRaises(ParameterError):
+            self.sd.future_date(-10, 10)
+
+    def test_past_date(self, min_distance=0, max_distance=365):
+        value = self.sd.past_date()
+        self.assertTrue(isinstance(value, datetime.date))
+
+        self.assertTrue(value <= datetime.date.today())
+        self.assertTrue(value >= (datetime.date.today() - datetime.timedelta(days=365)))
+
+        value = self.sd.past_date(0, 10)
+        self.assertTrue(value <= datetime.date.today())
+        self.assertTrue(value >= (datetime.date.today() - datetime.timedelta(days=10)))
+
+        with self.assertRaises(ParameterError):
+            self.sd.past_date(100, 0)
+
+        with self.assertRaises(ParameterError):
+            self.sd.past_date(-10, 10)
 
     def test_datetime_between(self):
         value = self.sd.datetime_between(
-                datetime.datetime(year=2000, month=1, day=1),
-                datetime.datetime(year=2001, month=1, day=1),
+            datetime.datetime(year=2000, month=1, day=1),
+            datetime.datetime(year=2001, month=1, day=1),
         )
         self.assertTrue(isinstance(value, datetime.datetime))
         self.assertTrue(value > datetime.datetime(year=2000, month=1, day=1))
@@ -214,15 +243,44 @@ class TestTimeHelpers(unittest.TestCase):
 
         with self.assertRaises(ParameterError):
             self.sd.datetime_between(
-                    datetime.datetime(year=2001, month=1, day=1),
-                    datetime.datetime(year=2000, month=1, day=1),
+                datetime.datetime(year=2001, month=1, day=1),
+                datetime.datetime(year=2000, month=1, day=1),
             )
 
-    #def test_future_datetime(self, min_distance=0, max_distance=1440):
-    #    pass
+    def test_future_datetime(self, min_distance=0, max_distance=1440):
+        value = self.sd.future_datetime()
+        self.assertTrue(isinstance(value, datetime.datetime))
 
-    #def test_past_datetime(self, min_distance=0, max_distance=1440):
-    #    pass
+        self.assertTrue(value >= datetime.datetime.utcnow().replace(tzinfo=utc))
+        self.assertTrue(value <= (datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta(minutes=1440)))
+
+        value = self.sd.future_datetime(0, 10)
+        self.assertTrue(value >= datetime.datetime.utcnow().replace(tzinfo=utc))
+        self.assertTrue(value <= (datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta(minutes=10)))
+
+        with self.assertRaises(ParameterError):
+            self.sd.future_datetime(100, 0)
+
+        with self.assertRaises(ParameterError):
+            self.sd.future_datetime(-10, 10)
+
+    def test_past_datetime(self, min_distance=0, max_distance=1440):
+        value = self.sd.past_datetime()
+        self.assertTrue(isinstance(value, datetime.datetime))
+
+        self.assertTrue(value <= datetime.datetime.utcnow().replace(tzinfo=utc))
+        self.assertTrue(value >= (datetime.datetime.utcnow().replace(tzinfo=utc) - datetime.timedelta(minutes=1440)))
+
+        value = self.sd.past_datetime(0, 10)
+        self.assertTrue(value <= datetime.datetime.utcnow().replace(tzinfo=utc))
+        self.assertTrue(value >= (datetime.datetime.utcnow().replace(tzinfo=utc) - datetime.timedelta(minutes=10)))
+
+        with self.assertRaises(ParameterError):
+            self.sd.past_datetime(100, 0)
+
+        with self.assertRaises(ParameterError):
+            self.sd.past_datetime(-10, 10)
+
 
     #def test_date(self, begin=-365, end=365):
     #    pass

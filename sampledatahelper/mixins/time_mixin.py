@@ -19,11 +19,23 @@ class TimeMixin(object):
 
     def future_date(self, min_distance=0, max_distance=365):
         """Random date between today and today + one year - one day."""
-        return dt.date.today() + dt.timedelta(random.randrange(min_distance, max_distance))
+        if min_distance < 0:
+            raise ParameterError('min_distance less than 0')
+
+        if min_distance > max_distance:
+            raise ParameterError('min_distance greater than max_distance')
+
+        return dt.date.today() + dt.timedelta(days=random.randrange(min_distance, max_distance))
 
     def past_date(self, min_distance=0, max_distance=365):
         """Random date between today and today + one year - one day."""
-        return dt.date.today() - dt.timedelta(random.randrange(min_distance, max_distance))
+        if min_distance < 0:
+            raise ParameterError('min_distance less than 0')
+
+        if min_distance > max_distance:
+            raise ParameterError('min_distance greater than max_distance')
+
+        return dt.date.today() - dt.timedelta(days=random.randrange(min_distance, max_distance))
 
     def datetime_between(self, min_datetime, max_datetime):
         """Random datetime between a min datetime and a max datetime."""
@@ -38,16 +50,34 @@ class TimeMixin(object):
 
     def future_datetime(self, min_distance=0, max_distance=1440):
         """Random date between today and today + one year - one day."""
+        if min_distance < 0:
+            raise ParameterError('min_distance less than 0')
+
+        if min_distance > max_distance:
+            raise ParameterError('min_distance greater than max_distance')
+
         return dt.datetime.utcnow().replace(tzinfo=utc) + dt.timedelta(minutes=random.randrange(min_distance, max_distance))
 
     def past_datetime(self, min_distance=0, max_distance=1440):
         """Random date between today and today + one year - one day."""
+        if min_distance < 0:
+            raise ParameterError('min_distance less than 0')
+
+        if min_distance > max_distance:
+            raise ParameterError('min_distance greater than max_distance')
+
         return dt.datetime.utcnow().replace(tzinfo=utc) - dt.timedelta(minutes=random.randrange(min_distance, max_distance))
 
     def date(self, begin=-365, end=365):
         """Random date between today - one year and today + one year."""
+        if begin > end:
+            raise ParameterError('begin greater than end')
+
         return dt.date.today() - dt.timedelta(random.randrange(begin, end))
 
     def datetime(self, begin=-1440, end=1440):
         """Random date between today - one year and today + one year."""
+        if begin > end:
+            raise ParameterError('begin greater than end')
+
         return dt.datetime.utcnow().replace(tzinfo=utc) - dt.timedelta(minutes=random.randrange(begin, end))
