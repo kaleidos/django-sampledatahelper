@@ -1,5 +1,5 @@
 import math
-from sampledatahelper import namedicts
+from sampledatahelper.l10n import names
 
 class Name(object):
     def generate(self, sd, locale=None, number=1, as_list=False):
