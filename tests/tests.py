@@ -2,6 +2,7 @@ from django.utils import unittest
 from django.core.validators import validate_email, validate_slug, URLValidator
 
 import string
+import datetime
 
 from sampledatahelper.helper import SampleDataHelper
 from sampledatahelper.exceptions import ParameterError
@@ -180,6 +181,54 @@ class TestTimeHelpers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.sd = SampleDataHelper()
+
+    def test_date_between(self):
+        value = self.sd.date_between(
+                datetime.date(year=2000, month=1, day=1),
+                datetime.date(year=2001, month=1, day=1),
+        )
+        self.assertTrue(isinstance(value, datetime.date))
+        self.assertTrue(value > datetime.date(year=2000, month=1, day=1))
+        self.assertTrue(value < datetime.date(year=2001, month=1, day=1))
+
+        with self.assertRaises(ParameterError):
+            self.sd.date_between(
+                    datetime.date(year=2001, month=1, day=1),
+                    datetime.date(year=2000, month=1, day=1),
+            )
+
+    #def test_future_date(self, min_distance=0, max_distance=365):
+    #    pass
+
+    #def test_past_date(self, min_distance=0, max_distance=365):
+    #    pass
+
+    def test_datetime_between(self):
+        value = self.sd.datetime_between(
+                datetime.datetime(year=2000, month=1, day=1),
+                datetime.datetime(year=2001, month=1, day=1),
+        )
+        self.assertTrue(isinstance(value, datetime.datetime))
+        self.assertTrue(value > datetime.datetime(year=2000, month=1, day=1))
+        self.assertTrue(value < datetime.datetime(year=2001, month=1, day=1))
+
+        with self.assertRaises(ParameterError):
+            self.sd.datetime_between(
+                    datetime.datetime(year=2001, month=1, day=1),
+                    datetime.datetime(year=2000, month=1, day=1),
+            )
+
+    #def test_future_datetime(self, min_distance=0, max_distance=1440):
+    #    pass
+
+    #def test_past_datetime(self, min_distance=0, max_distance=1440):
+    #    pass
+
+    #def test_date(self, begin=-365, end=365):
+    #    pass
+
+    #def test_datetime(self, begin=-1440, end=1440):
+    #    pass
 
 class TestLocalizedHelpers(unittest.TestCase):
     @classmethod

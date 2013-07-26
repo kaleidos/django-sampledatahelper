@@ -2,13 +2,19 @@ import datetime as dt
 import random
 from django.utils.timezone import utc
 
+from ..exceptions import ParameterError
+
 
 class TimeMixin(object):
     def date_between(self, min_date, max_date):
         """Random date between a min_date and a max_date."""
+        if min_date > max_date:
+            raise ParameterError('min_date greater than max_date')
+
         delta = max_date - min_date
         int_delta = delta.days
-        random_day = self.int(int_delta)
+        random_day = self.int(0, int_delta)
+
         return min_date + dt.timedelta(days=random_day)
 
     def future_date(self, min_distance=0, max_distance=365):
@@ -21,9 +27,13 @@ class TimeMixin(object):
 
     def datetime_between(self, min_datetime, max_datetime):
         """Random datetime between a min datetime and a max datetime."""
+        if min_datetime > max_datetime:
+            raise ParameterError('min_datetime greater than max_datetime')
+
         delta = max_datetime - min_datetime
         int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
-        random_second = self.int(int_delta)
+        random_second = self.int(0, int_delta)
+
         return min_datetime + dt.timedelta(seconds=random_second)
 
     def future_datetime(self, min_distance=0, max_distance=1440):
