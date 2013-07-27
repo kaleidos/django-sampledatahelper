@@ -1,6 +1,6 @@
 import random
 
-from sampledatahelper.name_generators import Name, Surname, FullName
+from sampledatahelper.l10n.names import Name, Surname, FullName
 
 from ..exceptions import ParameterError
 

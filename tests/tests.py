@@ -357,7 +357,7 @@ class TestLocalizedHelpers(unittest.TestCase):
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 1)
 
-        value = self.sd.name(locale='ca', as_list=True)
+        value = self.sd.name(locale='cat', as_list=True)
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 1)
 
@@ -394,7 +394,7 @@ class TestLocalizedHelpers(unittest.TestCase):
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 2)
 
-        value = self.sd.surname(locale='ca', as_list=True)
+        value = self.sd.surname(locale='cat', as_list=True)
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 2)
 
@@ -427,7 +427,7 @@ class TestLocalizedHelpers(unittest.TestCase):
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 3)
 
-        value = self.sd.fullname(locale='ca', as_list=True)
+        value = self.sd.fullname(locale='cat', as_list=True)
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 3)
 
