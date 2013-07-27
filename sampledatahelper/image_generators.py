@@ -8,14 +8,14 @@ class ImgSimple(object):
         bg = Image.new(
             "RGBA",
             (width, height),
-            (1 + sd.int(254), 1 + sd.int(254), 1 + sd.int(254), 255)
+            (1 + sd.int(0, 254), 1 + sd.int(0, 254), 1 + sd.int(0, 254), 255)
         )
         draw = ImageDraw.Draw(im)
         draw.text(
             (sd.int(width / 2), sd.int(height / 2)),
             sd.word(),
-            font=sd.ttf_font,
-            fill="rgb(%d,%d,%d)" % (1 + sd.int(255), 1 + sd.int(255), 1 + sd.int(255))
+            #font=sd.ttf_font,
+            fill="rgb(%d,%d,%d)" % (1 + sd.int(0, 254), 1 + sd.int(0, 254), 1 + sd.int(0, 254))
         )
         im = im.rotate(-sd.int(90))
         bg.paste(im, (0, 0), im)
@@ -29,16 +29,16 @@ class ImgPlasma(object):
         bg = Image.new(
             "RGBA",
             (width, height),
-            (1 + sd.int(254), 1 + sd.int(254), 1 + sd.int(254), 255)
+            (1 + sd.int(0, 254), 1 + sd.int(0, 254), 1 + sd.int(0, 254), 255)
         )
         # image size
         self.roughness = sd.int(2, 5)
 
         self.im = im
-        self.im.putpixel((0, 0), sd.int(255))
-        self.im.putpixel((width-1, 0), sd.int(255))
-        self.im.putpixel((width-1, height - 1), sd.int(255))
-        self.im.putpixel((0, height - 1), sd.int(255))
+        self.im.putpixel((0, 0), sd.int(0, 254))
+        self.im.putpixel((width-1, 0), sd.int(0, 254))
+        self.im.putpixel((width-1, height - 1), sd.int(0, 254))
+        self.im.putpixel((0, height - 1), sd.int(0, 254))
         self.subdivide(0, 0, width - 1, height - 1)
         self.im = self.im.convert("RGBA")
         return Image.blend(self.im, bg, 0.5)
@@ -121,7 +121,7 @@ class ImgIFS(object):
         bg = Image.new(
             "RGBA",
             (width, height),
-            (1 + sd.int(254), 1 + sd.int(254), 1 + sd.int(254), 255)
+            (1 + sd.int(0, 254), 1 + sd.int(0, 254), 1 + sd.int(0, 254), 255)
         )
         mats = []
         ### Fractint IFS definition of Fern
@@ -184,7 +184,7 @@ class ImgIFS(object):
         # drawing
         x = 0.0
         y = 0.0
-        colour = (sd.int(255), sd.int(255), sd.int(255))
+        colour = (sd.int(0, 254), sd.int(0, 254), sd.int(0, 254))
         for k in range(imgx * imgy):
             p = sd.float(0, 1)
             psum = 0.0
@@ -202,19 +202,3 @@ class ImgIFS(object):
         im = im.rotate(sd.int(360))
         bg.paste(im, (0, 0), im)
         return bg
-
-if __name__ == '__main__':
-    from sampledatahelper import SampleDataHelper
-    sd = SampleDataHelper()
-    width = 640
-    height = 480
-    algorithms = {
-        'simple': ImgSimple,
-        'plasma': ImgPlasma,
-        'mandelbrot': ImgMandelbrot,
-        'ifs': ImgIFS,
-    }
-    for key, value in algorithms.iteritems():
-        generator = value()
-        im = generator.generate(sd, width, height)
-        im.save("%s.png" % key)

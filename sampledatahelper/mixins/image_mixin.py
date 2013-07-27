@@ -2,11 +2,13 @@ import os
 import random
 from django.core.files.images import ImageFile
 try:
-    from .image_generators import ImgSimple, ImgPlasma, ImgMandelbrot, ImgIFS
+    from sampledatahelper.image_generators import ImgSimple, ImgPlasma, ImgMandelbrot, ImgIFS
     PIL_INSTALLED = True
 except ImportError:
     PIL_INSTALLED = False
 from tempfile import mkstemp
+
+from sampledatahelper.exceptions import ParameterError
 
 
 class ImageMixin(object):
@@ -19,7 +21,10 @@ class ImageMixin(object):
 
     def image(self, width, height, typ="simple"):
         if not PIL_INSTALLED:
-            raise Exception("PIL needed to use this function")
+            raise ImportError("PIL needed to use this function")
+
+        if width <= 0 or height <= 0:
+            raise ParameterError('width and width must be geater than 0')
 
         if typ == "simple":
             generator = ImgSimple()
@@ -32,7 +37,7 @@ class ImageMixin(object):
         elif typ == "random":
             generator = self.choice([ImgSimple, ImgPlasma, ImgMandelbrot, ImgIFS])()
         else:
-            generator = ImgSimple()
+            raise ParameterError('Unknown image generator type')
 
         im = generator.generate(self, width, height)
 

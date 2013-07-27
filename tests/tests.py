@@ -1,18 +1,20 @@
 from django.utils import unittest
 from django.core.validators import validate_email, validate_slug, URLValidator
 from django.utils.timezone import utc
+from django.core.files.images import ImageFile
 
 import string
 import datetime
 
 from sampledatahelper.helper import SampleDataHelper
 from sampledatahelper.exceptions import ParameterError
+from sampledatahelper.mixins import image_mixin
 
 
 class TestNumberHelpers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.sd = SampleDataHelper()
+        cls.sd = SampleDataHelper(datetime.datetime.now())
 
     def test_int(self):
         self.assertEqual(self.sd.int(min_value=5, max_value=5), 5)
@@ -483,10 +485,38 @@ class TestImageHelpers(unittest.TestCase):
     #def test_image_from_directory(self):
     #    pass
 
-    # TODO
-    #def test_image(self):
-    #    pass
+    def test_image(self):
+        value = self.sd.image(100, 100)
+        self.assertTrue(isinstance(value, ImageFile))
 
+        value = self.sd.image(100, 100, typ="simple")
+        self.assertTrue(isinstance(value, ImageFile))
+
+        value = self.sd.image(100, 100, typ="plasma")
+        self.assertTrue(isinstance(value, ImageFile))
+
+        value = self.sd.image(100, 100, typ="mandelbrot")
+        self.assertTrue(isinstance(value, ImageFile))
+
+        value = self.sd.image(100, 100, typ="ifs")
+        self.assertTrue(isinstance(value, ImageFile))
+
+        value = self.sd.image(100, 100, typ="random")
+        self.assertTrue(isinstance(value, ImageFile))
+
+        image_mixin.PIL_INSTALLED = False
+        with self.assertRaises(ImportError):
+            value = self.sd.image(100, 100, typ="random")
+        image_mixin.PIL_INSTALLED = True
+
+        with self.assertRaises(ParameterError):
+            value = self.sd.image(100, 100, typ="not-valid-type")
+
+        with self.assertRaises(ParameterError):
+            value = self.sd.image(0, 100)
+
+        with self.assertRaises(ParameterError):
+            value = self.sd.image(100, 0)
 
 class TestOtherHelpers(unittest.TestCase):
     @classmethod
