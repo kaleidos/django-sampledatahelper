@@ -62,10 +62,10 @@ class FullName(object):
         else:
             names_number = 1
             surnames_number = 1
-        names = ngen.generate(sd, locale, names_number, True)
+        names_list = ngen.generate(sd, locale, names_number, True)
         surnames = sngen.generate(sd, locale, surnames_number, True)
 
         if as_list:
-            return names+surnames
+            return names_list+surnames
         else:
-            return ' '.join(names+surnames)
+            return ' '.join(names_list+surnames)

@@ -48,7 +48,7 @@ class LocalizedMixin(object):
             return phone
         else:
             # Only works with implemented locales
-            raise NotImplemented
+            raise ParameterError("Not valid locale")
 
     def zip_code(self, locale=None):
         zip_code = ''
@@ -57,7 +57,7 @@ class LocalizedMixin(object):
             return zip_code
         else:
             # Only works with implemented locales
-            raise NotImplemented
+            raise ParameterError("Not valid locale")
 
     def id_card(self, locale=None):
         id_card = ''
@@ -69,4 +69,4 @@ class LocalizedMixin(object):
             return id_card
         else:
             # Only works with implemented locales
-            raise NotImplemented
+            raise ParameterError("Not valid locale")

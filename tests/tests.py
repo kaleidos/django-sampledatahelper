@@ -198,7 +198,7 @@ class TestTimeHelpers(unittest.TestCase):
                 datetime.date(year=2000, month=1, day=1),
             )
 
-    def test_future_date(self, min_distance=0, max_distance=365):
+    def test_future_date(self):
         value = self.sd.future_date()
         self.assertTrue(isinstance(value, datetime.date))
 
@@ -215,7 +215,7 @@ class TestTimeHelpers(unittest.TestCase):
         with self.assertRaises(ParameterError):
             self.sd.future_date(-10, 10)
 
-    def test_past_date(self, min_distance=0, max_distance=365):
+    def test_past_date(self):
         value = self.sd.past_date()
         self.assertTrue(isinstance(value, datetime.date))
 
@@ -247,7 +247,7 @@ class TestTimeHelpers(unittest.TestCase):
                 datetime.datetime(year=2000, month=1, day=1),
             )
 
-    def test_future_datetime(self, min_distance=0, max_distance=1440):
+    def test_future_datetime(self):
         value = self.sd.future_datetime()
         self.assertTrue(isinstance(value, datetime.datetime))
 
@@ -264,7 +264,7 @@ class TestTimeHelpers(unittest.TestCase):
         with self.assertRaises(ParameterError):
             self.sd.future_datetime(-10, 10)
 
-    def test_past_datetime(self, min_distance=0, max_distance=1440):
+    def test_past_datetime(self):
         value = self.sd.past_datetime()
         self.assertTrue(isinstance(value, datetime.datetime))
 
@@ -424,41 +424,64 @@ class TestLocalizedHelpers(unittest.TestCase):
         with self.assertRaises(ParameterError):
             value = self.sd.surname(locale="not-valid-locale")
 
-    #def fullname(self, locale=None, as_list=False):
-    #    return FullName().generate(self, locale, as_list)
+    def test_fullname(self):
+        value = self.sd.fullname()
+        self.assertTrue(isinstance(value, basestring))
+        self.assertEqual(len(value.split(' ')), 2)
 
-    #def phone(self, locale=None, country_code=False):
-    #    phone = ''
-    #    if locale == "es":
-    #        if country_code is True:
-    #            phone += "+34 "
-    #        phone += random.choice(['6', '9'])
-    #        phone += str(self.int(10000000, 99999999))
-    #        return phone
-    #    else:
-    #        # Only works with implemented locales
-    #        raise NotImplemented
+        value = self.sd.fullname(as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 2)
 
-    #def zip_code(self, locale=None):
-    #    zip_code = ''
-    #    if locale == "es":
-    #        zip_code = "%05d" % self.int(1000, 52999)
-    #        return zip_code
-    #    else:
-    #        # Only works with implemented locales
-    #        raise NotImplemented
+        value = self.sd.fullname(locale='es')
+        self.assertTrue(isinstance(value, basestring))
+        self.assertEqual(len(value.split(' ')), 3)
 
-    #def id_card(self, locale=None):
-    #    id_card = ''
-    #    if locale == "es":
-    #        id_card = "%05d" % self.int(1000, 52999)
-    #        id_card = self.number_string(8)
-    #        id_card_letters = "TRWAGMYFPDXBNJZSQVHLCKET"
-    #        id_card += id_card_letters[int(id_card) % 23]
-    #        return id_card
-    #    else:
-    #        # Only works with implemented locales
-    #        raise NotImplemented
+        value = self.sd.fullname(locale='ca')
+        self.assertTrue(isinstance(value, basestring))
+        self.assertEqual(len(value.split(' ')), 3)
+
+        value = self.sd.fullname(locale='fr')
+        self.assertTrue(isinstance(value, basestring))
+        self.assertEqual(len(value.split(' ')), 2)
+
+        value = self.sd.fullname(locale='us')
+        self.assertTrue(isinstance(value, basestring))
+        self.assertEqual(len(value.split(' ')), 2)
+
+        with self.assertRaises(ParameterError):
+            value = self.sd.fullname(locale="not-valid-locale")
+
+    def test_phone(self):
+        value = self.sd.phone(locale='es')
+        self.assertTrue(isinstance(value, basestring))
+        self.assertEqual(len(value), 9)
+        self.assertTrue(value[0] in ['6', '9'])
+
+        value = self.sd.phone(locale='es', country_code=True)
+        self.assertTrue(isinstance(value, basestring))
+        self.assertEqual(len(value), 13)
+        self.assertTrue(value[0:5] in ['+34 6', '+34 9'])
+
+        with self.assertRaises(ParameterError):
+            value = self.sd.phone(locale="not-valid-locale")
+
+    def test_zip_code(self):
+        value = self.sd.zip_code(locale='es')
+        self.assertTrue(isinstance(value, basestring))
+        self.assertEqual(len(value), 5)
+
+        with self.assertRaises(ParameterError):
+            value = self.sd.zip_code(locale="not-valid-locale")
+
+    def test_id_card(self):
+        value = self.sd.id_card(locale='es')
+        self.assertTrue(isinstance(value, basestring))
+        self.assertEqual(len(value), 9)
+        self.assertTrue(value[8] in "TRWAGMYFPDXBNJZSQVHLCKET")
+
+        with self.assertRaises(ParameterError):
+            value = self.sd.id_card(locale="not-valid-locale")
 
 class TestImageHelpers(unittest.TestCase):
     @classmethod
