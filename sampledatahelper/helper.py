@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 import random
 from .mixins import NumberMixin, TextMixin, TimeMixin, LocalizedMixin, ImageMixin, OtherMixin
 

@@ -255,7 +255,7 @@ class TestTimeHelpers(unittest.TestCase):
         self.assertTrue(value >= datetime.datetime.utcnow().replace(tzinfo=utc))
         self.assertTrue(value <= (datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta(minutes=1440)))
 
-        value = self.sd.future_datetime(0, 10)
+        value = self.sd.future_datetime(1, 10)
         self.assertTrue(value >= datetime.datetime.utcnow().replace(tzinfo=utc))
         self.assertTrue(value <= (datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta(minutes=10)))
 
@@ -344,35 +344,30 @@ class TestLocalizedHelpers(unittest.TestCase):
     def test_name(self):
         value = self.sd.name()
         self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 1)
 
         value = self.sd.name(as_list=True)
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 1)
 
-        value = self.sd.name(number=3)
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 3)
-
         value = self.sd.name(number=3, as_list=True)
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 3)
 
-        value = self.sd.name(locale='es')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 1)
+        value = self.sd.name(locale='es', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 1)
 
-        value = self.sd.name(locale='ca')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 1)
+        value = self.sd.name(locale='ca', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 1)
 
-        value = self.sd.name(locale='fr')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 1)
+        value = self.sd.name(locale='fr', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 1)
 
-        value = self.sd.name(locale='us')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 1)
+        value = self.sd.name(locale='us', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 1)
 
         with self.assertRaises(ParameterError):
             value = self.sd.name(number=0)
@@ -386,35 +381,30 @@ class TestLocalizedHelpers(unittest.TestCase):
     def test_surname(self):
         value = self.sd.surname()
         self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 1)
 
         value = self.sd.surname(as_list=True)
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 1)
 
-        value = self.sd.surname(number=3)
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 3)
-
         value = self.sd.surname(number=3, as_list=True)
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 3)
 
-        value = self.sd.surname(locale='es')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 2)
+        value = self.sd.surname(locale='es', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 2)
 
-        value = self.sd.surname(locale='ca')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 2)
+        value = self.sd.surname(locale='ca', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 2)
 
-        value = self.sd.surname(locale='fr')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 1)
+        value = self.sd.surname(locale='fr', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 1)
 
-        value = self.sd.surname(locale='us')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 1)
+        value = self.sd.surname(locale='us', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 1)
 
         with self.assertRaises(ParameterError):
             value = self.sd.surname(number=0)
@@ -428,27 +418,26 @@ class TestLocalizedHelpers(unittest.TestCase):
     def test_fullname(self):
         value = self.sd.fullname()
         self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 2)
 
         value = self.sd.fullname(as_list=True)
         self.assertTrue(isinstance(value, list))
         self.assertEqual(len(value), 2)
 
-        value = self.sd.fullname(locale='es')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 3)
+        value = self.sd.fullname(locale='es', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 3)
 
-        value = self.sd.fullname(locale='ca')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 3)
+        value = self.sd.fullname(locale='ca', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 3)
 
-        value = self.sd.fullname(locale='fr')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 2)
+        value = self.sd.fullname(locale='fr', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 2)
 
-        value = self.sd.fullname(locale='us')
-        self.assertTrue(isinstance(value, basestring))
-        self.assertEqual(len(value.split(' ')), 2)
+        value = self.sd.fullname(locale='us', as_list=True)
+        self.assertTrue(isinstance(value, list))
+        self.assertEqual(len(value), 2)
 
         with self.assertRaises(ParameterError):
             value = self.sd.fullname(locale="not-valid-locale")
@@ -508,10 +497,13 @@ class TestOtherHelpers(unittest.TestCase):
         self.assertTrue(isinstance(self.sd.boolean(), bool))
 
     def test_choice(self):
-        self.assertEqual(self.sd.choice([10], 10))
+        self.assertEqual(self.sd.choice([10]), 10)
 
         with self.assertRaises(ParameterError):
             self.sd.choice([])
+
+        with self.assertRaises(ParameterError):
+            self.sd.choice(7)
 
     def test_choices_key(self):
         choices = [
@@ -520,7 +512,13 @@ class TestOtherHelpers(unittest.TestCase):
         self.assertEqual(self.sd.choices_key(choices), 1)
 
         with self.assertRaises(ParameterError):
-            self.sd.choice([])
+            self.sd.choices_key([])
+
+        with self.assertRaises(ParameterError):
+            self.sd.choices_key(7)
+
+        with self.assertRaises(ParameterError):
+            self.sd.choices_key([10])
 
     # TODO
     #def test_db_object(self):

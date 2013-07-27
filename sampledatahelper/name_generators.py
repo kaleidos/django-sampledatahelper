@@ -1,7 +1,7 @@
-import math
 from sampledatahelper.l10n import names
 
 from .exceptions import ParameterError
+
 
 class Name(object):
     def generate(self, sd, locale=None, number=None, as_list=False):
@@ -51,6 +51,7 @@ class Surname(object):
             return result
         else:
             return ' '.join(result)
+
 
 class FullName(object):
     def generate(self, sd, locale=None, as_list=False):

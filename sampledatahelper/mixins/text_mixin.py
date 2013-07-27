@@ -1,12 +1,8 @@
-import sys
 import random
 import string
 from ..exceptions import ParameterError
 
-try:
-    from django.contrib.webdesign import lorem_ipsum
-except ImportError:
-    sys.exit()
+from django.contrib.webdesign import lorem_ipsum
 
 
 class TextMixin(object):
@@ -41,15 +37,20 @@ class TextMixin(object):
 
     def email(self):
         """Random mail address."""
-        return lorem_ipsum.words(1, common=False) + u'@' + lorem_ipsum.words(1, common=False) + \
-               random.choice([u'.es', u'.com', u'.org', u'.net', u'.gov', u'.tk'])
+        username = lorem_ipsum.words(1, common=False)
+        domain = lorem_ipsum.words(1, common=False)
+        termination = random.choice([u'.com', u'.org', u'.net'])
+
+        return "{0}@{1}{2}".format(username, domain, termination)
 
     def url(self):
         """Random url."""
         protocol = random.choice(["http", "https"])
-        domain = self.word() + random.choice([u'.es', u'.com', u'.org', u'.net', u'.gov', u'.tk'])
+        domain = self.word()
+        termination = random.choice([u'.com', u'.org', u'.net'])
         path = self.word()
-        return "%s://%s/%s" % (protocol, domain, path)
+
+        return "{0}://{1}{2}/{3}".format(protocol, domain, termination, path)
 
     def sentence(self):
         """Random sentence with text shorter than 255 characters."""
