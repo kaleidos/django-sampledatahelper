@@ -2,6 +2,8 @@ import random
 
 from sampledatahelper.name_generators import Name, Surname, FullName
 
+from ..exceptions import ParameterError
+
 
 class LocalizedMixin(object):
     def state_code(self, locale):
@@ -15,13 +17,22 @@ class LocalizedMixin(object):
                  '41', '42', '43', '44', '45', '46', '47', '48', '49', '50',
                  '51', '52', 'AD', ]
             )
+        elif locale == "us":
+            return random.choice(
+                ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+                 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+                 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+                 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+                 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY',
+                 'AS', 'DC', 'FM', 'GU', 'MH', 'MP', 'PW', 'PR', 'VI', ]
+            )
         else:
-            raise Exception("Not valid locale")
+            raise ParameterError("Not valid locale")
 
-    def name(self, locale=None, number=1, as_list=False):
+    def name(self, locale=None, number=None, as_list=False):
         return Name().generate(self, locale, number, as_list)
 
-    def surname(self, locale=None, number=1, as_list=False):
+    def surname(self, locale=None, number=None, as_list=False):
         return Surname().generate(self, locale, number, as_list)
 
     def fullname(self, locale=None, as_list=False):

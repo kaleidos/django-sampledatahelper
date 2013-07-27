@@ -126,13 +126,13 @@ Localized methods
 
     Return a string or list of tipical names from locale using n names (compound names)
 
-    Supported locales: es
+    Supported locales: ca, es, fr, us
 
 .. function:: surname(locale=None, number=1, as_list=False)
 
     Return a string or list of tipical surnames from locale using n surnames
 
-    Supported locales: es
+    Supported locales: ca, es, fr, us
 
 .. function:: fullname(locale=None, as_list=False)
 
@@ -156,7 +156,7 @@ Localized methods
 
     Return a state code for the locale country.
 
-    Supported locales: es
+    Supported locales: es, us
 
 .. function:: id_card(locale)
 

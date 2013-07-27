@@ -1,16 +1,26 @@
 import math
 from sampledatahelper.l10n import names
 
+from .exceptions import ParameterError
+
 class Name(object):
-    def generate(self, sd, locale=None, number=1, as_list=False):
+    def generate(self, sd, locale=None, number=None, as_list=False):
         if locale:
-            names = namedicts.get_names(locale)
+            names_list = names.get_names(locale)
+            if number is None:
+                number = names.get_names_number(locale)
         else:
-            names = namedicts.all_names()
+            names_list = names.all_names()
+
+        if number is None:
+            number = 1
+
+        if number < 1:
+            raise ParameterError("number must be greater than 1")
 
         result = []
         for x in range(number):
-            result.append(sd.choice(names))
+            result.append(sd.choice(names_list))
         if as_list:
             return result
         else:
@@ -18,13 +28,22 @@ class Name(object):
 
 
 class Surname(object):
-    def generate(self, sd, locale=None, number=1, as_list=False):
+    def generate(self, sd, locale=None, number=None, as_list=False):
         if locale:
-            surnames = namedicts.get_surnames(locale)
+            surnames = names.get_surnames(locale)
+            if number is None:
+                number = names.get_surnames_number(locale)
         else:
-            surnames = namedicts.all_surnames()
+            surnames = names.all_surnames()
 
         result = []
+
+        if number is None:
+            number = 1
+
+        if number < 1:
+            raise ParameterError("number must be greater than 1")
+
         for x in range(number):
             result.append(sd.choice(surnames))
 
@@ -38,8 +57,8 @@ class FullName(object):
         sngen = Surname()
         ngen = Name()
         if locale:
-            names_number = namedicts.get_names_number(locale)
-            surnames_number = namedicts.get_surnames_number(locale)
+            names_number = names.get_names_number(locale)
+            surnames_number = names.get_surnames_number(locale)
         else:
             names_number = 1
             surnames_number = 1
