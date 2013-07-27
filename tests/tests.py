@@ -144,7 +144,7 @@ class TestTextHelpers(unittest.TestCase):
         self.assertTrue(isinstance(value, basestring))
 
     def test_paragraphs(self):
-        for x in range(1,10):
+        for x in range(1, 10):
             value = self.sd.paragraphs()
             self.assertTrue(isinstance(value, basestring))
 
@@ -177,6 +177,7 @@ class TestTextHelpers(unittest.TestCase):
 
         with self.assertRaises(ParameterError):
             value = self.sd.tags(10, 5)
+
 
 class TestTimeHelpers(unittest.TestCase):
     @classmethod
@@ -281,7 +282,6 @@ class TestTimeHelpers(unittest.TestCase):
         with self.assertRaises(ParameterError):
             self.sd.past_datetime(-10, 10)
 
-
     def test_date(self):
         value = self.sd.date()
         self.assertTrue(isinstance(value, datetime.date))
@@ -309,6 +309,7 @@ class TestTimeHelpers(unittest.TestCase):
 
         with self.assertRaises(ParameterError):
             self.sd.datetime(100, 0)
+
 
 class TestLocalizedHelpers(unittest.TestCase):
     @classmethod
@@ -483,12 +484,48 @@ class TestLocalizedHelpers(unittest.TestCase):
         with self.assertRaises(ParameterError):
             value = self.sd.id_card(locale="not-valid-locale")
 
+
 class TestImageHelpers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.sd = SampleDataHelper()
 
+    # TODO
+    #def test_image_from_directory(self):
+    #    pass
+
+    # TODO
+    #def test_image(self):
+    #    pass
+
+
 class TestOtherHelpers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.sd = SampleDataHelper()
+
+    def test_boolean(self):
+        self.assertTrue(isinstance(self.sd.boolean(), bool))
+
+    def test_choice(self):
+        self.assertEqual(self.sd.choice([10], 10))
+
+        with self.assertRaises(ParameterError):
+            self.sd.choice([])
+
+    def test_choices_key(self):
+        choices = [
+            (1, 'test')
+        ]
+        self.assertEqual(self.sd.choices_key(choices), 1)
+
+        with self.assertRaises(ParameterError):
+            self.sd.choice([])
+
+    # TODO
+    #def test_db_object(self):
+    #    pass
+
+    # TODO
+    #def test_db_object_from_queryset(self):
+    #    pass
