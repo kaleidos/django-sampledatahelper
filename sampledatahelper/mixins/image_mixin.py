@@ -8,13 +8,20 @@ except ImportError:
     PIL_INSTALLED = False
 from tempfile import mkstemp
 
-from sampledatahelper.exceptions import ParameterError
+from sampledatahelper.exceptions import ParameterError, NotChoicesFound
 
 
 class ImageMixin(object):
     def image_from_directory(self, directory_path, valid_extensions=['.jpg', '.bmp', '.png']):
+        if not os.path.exists(directory_path):
+            raise ParameterError('directory_path must be a valid path')
+
         list_of_images = os.listdir(directory_path)
         list_of_images = filter(lambda x: os.path.splitext(x)[1] in valid_extensions, list_of_images)
+
+        if len(list_of_images) == 0:
+            raise NotChoicesFound('Not valid images found in directory_path for valid_extensions')
+
         random_path = os.path.join(directory_path, random.choice(list_of_images))
         im_file = ImageFile(open(random_path, 'r'))
         return im_file

@@ -5,9 +5,10 @@ from django.core.files.images import ImageFile
 
 import string
 import datetime
+import os
 
 from sampledatahelper.helper import SampleDataHelper
-from sampledatahelper.exceptions import ParameterError
+from sampledatahelper.exceptions import ParameterError, NotChoicesFound
 from sampledatahelper.mixins import image_mixin
 
 
@@ -481,9 +482,15 @@ class TestImageHelpers(unittest.TestCase):
     def setUpClass(cls):
         cls.sd = SampleDataHelper()
 
-    # TODO
-    #def test_image_from_directory(self):
-    #    pass
+    def test_image_from_directory(self):
+        value = self.sd.image_from_directory(os.path.dirname(__file__))
+        self.assertTrue(isinstance(value, ImageFile))
+
+        with self.assertRaises(ParameterError):
+            self.sd.image_from_directory('not-existing-directory')
+
+        with self.assertRaises(NotChoicesFound):
+            self.sd.image_from_directory(os.path.dirname(__file__), ['.not-valid-extension'])
 
     def test_image(self):
         value = self.sd.image(100, 100)
