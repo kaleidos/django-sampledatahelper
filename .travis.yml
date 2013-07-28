@@ -1,0 +1,17 @@
+language: python
+python:
+  - "2.7"
+install:
+  - pip install -e . --use-mirrors
+  - pip install pillow . --use-mirrors
+  - pip install coveralls --use-mirrors
+script:
+  - coverage run --source=sampledatahelper setup.py test
+notifications:
+  email:
+    recipients:
+      - jespinog@gmail.com
+    on_success: change
+    on_failure: change
+after_success:
+  - coveralls
