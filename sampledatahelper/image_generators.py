@@ -97,14 +97,14 @@ class ImgMandelbrot(object):
         maxIt = 20  # max iterations allowed
 
         #optimizations
-        lutx = [j * (xb-xa) / (width - 1) + xa for j in xrange(width)]
+        lutx = [j * (xb-xa) / (width - 1) + xa for j in range(width)]
 
-        for y in xrange(height):
+        for y in range(height):
             cy = y * (yb - ya) / (height - 1) + ya
-            for x in xrange(width):
+            for x in range(width):
                 c = complex(lutx[x], cy)
                 z = 0
-                for i in xrange(maxIt):
+                for i in range(maxIt):
                     if abs(z) > 2.0:
                         break
                     z = z * z + c

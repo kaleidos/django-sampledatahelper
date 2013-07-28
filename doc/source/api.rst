@@ -4,7 +4,7 @@ API
 Number methods
 --------------
 
-.. function:: int(min_value=0, max_value=sys.maxint)
+.. function:: int(min_value=0, max_value=sys.maxsize)
 
     Return an integer between min_value and max_value
 

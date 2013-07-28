@@ -17,7 +17,7 @@ class ImageMixin(object):
             raise ParameterError('directory_path must be a valid path')
 
         list_of_images = os.listdir(directory_path)
-        list_of_images = filter(lambda x: os.path.splitext(x)[1] in valid_extensions, list_of_images)
+        list_of_images = list(filter(lambda x: os.path.splitext(x)[1] in valid_extensions, list_of_images))
 
         if len(list_of_images) == 0:
             raise NotChoicesFound('Not valid images found in directory_path for valid_extensions')

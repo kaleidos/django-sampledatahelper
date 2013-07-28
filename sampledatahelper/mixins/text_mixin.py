@@ -21,7 +21,7 @@ class TextMixin(object):
 
     def char(self):
         """Random character."""
-        return random.choice(string.letters)
+        return random.choice(string.ascii_letters)
 
     def chars(self, min_chars=1, max_chars=5):
         """Random text with 1 word."""

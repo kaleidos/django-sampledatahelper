@@ -15,7 +15,7 @@ class Name(object):
         if not os.path.exists(locale_path):
             raise ParameterError('Not valid locale')
 
-        Name.data[locale] = json.load(file(locale_path, 'r'))
+        Name.data[locale] = json.load(open(locale_path, 'r'))
 
     def get_names(self, locale):
         if locale not in Name.data:
@@ -68,7 +68,7 @@ class Surname(object):
         if not os.path.exists(locale_path):
             raise ParameterError('Not valid locale')
 
-        Surname.data[locale] = json.load(file(locale_path, 'r'))
+        Surname.data[locale] = json.load(open(locale_path, 'r'))
 
     def get_surnames(self, locale):
         if locale not in Surname.data:

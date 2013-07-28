@@ -5,7 +5,7 @@ from ..exceptions import ParameterError
 
 
 class NumberMixin(object):
-    def int(self, min_value=0, max_value=sys.maxint):
+    def int(self, min_value=0, max_value=sys.maxsize):
         """Random number from 0 or min_value to max_value - 1 or sys.maxint - 1."""
 
         if min_value > max_value:

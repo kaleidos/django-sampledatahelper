@@ -6,6 +6,7 @@ from django.core.files.images import ImageFile
 import string
 import datetime
 import os
+import six
 
 from sampledatahelper.helper import SampleDataHelper
 from sampledatahelper.exceptions import ParameterError, NotChoicesFound
@@ -65,7 +66,7 @@ class TestNumberHelpers(unittest.TestCase):
 
     def test_number_string(self):
         value = self.sd.number_string(5)
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
         self.assertEqual(len(value), 5)
 
         self.assertEqual(self.sd.number_string(0), '')
@@ -81,12 +82,12 @@ class TestTextHelpers(unittest.TestCase):
 
     def test_char(self):
         value = self.sd.char()
-        self.assertTrue(isinstance(value, basestring))
-        self.assertTrue(value in string.letters)
+        self.assertTrue(isinstance(value, six.string_types))
+        self.assertTrue(value in string.ascii_letters)
 
     def test_chars(self):
         value = self.sd.chars()
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
         self.assertTrue(len(value) >= 1)
         self.assertTrue(len(value) <= 5)
 
@@ -100,11 +101,11 @@ class TestTextHelpers(unittest.TestCase):
 
     def test_word(self):
         value = self.sd.word()
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
 
     def test_words(self):
         value = self.sd.words()
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
         self.assertTrue(len(value.split(' ')) >= 1)
         self.assertTrue(len(value.split(' ')) <= 5)
 
@@ -127,29 +128,29 @@ class TestTextHelpers(unittest.TestCase):
     def test_sentence(self):
         for x in range(1, 10):
             value = self.sd.sentence()
-            self.assertTrue(isinstance(value, basestring))
+            self.assertTrue(isinstance(value, six.string_types))
             self.assertTrue(len(value) <= 255)
 
     def test_short_sentence(self):
         for x in range(1, 10):
             value = self.sd.short_sentence()
-            self.assertTrue(isinstance(value, basestring))
+            self.assertTrue(isinstance(value, six.string_types))
             self.assertTrue(len(value) <= 100)
 
     def test_long_sentence(self):
         for x in range(1, 10):
             value = self.sd.long_sentence()
-            self.assertTrue(isinstance(value, basestring))
+            self.assertTrue(isinstance(value, six.string_types))
             self.assertTrue(len(value) >= 150)
 
     def test_paragraph(self):
         value = self.sd.paragraph()
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
 
     def test_paragraphs(self):
         for x in range(1, 10):
             value = self.sd.paragraphs()
-            self.assertTrue(isinstance(value, basestring))
+            self.assertTrue(isinstance(value, six.string_types))
 
             self.assertTrue(len(value.split('\n\n')) >= 1)
             self.assertTrue(len(value.split('\n\n')) <= 5)
@@ -170,7 +171,7 @@ class TestTextHelpers(unittest.TestCase):
 
     def test_tags(self):
         value = self.sd.tags()
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
 
         value = self.sd.tags(5, 5)
         self.assertEqual(len(value.split(',')), 5)
@@ -346,7 +347,7 @@ class TestLocalizedHelpers(unittest.TestCase):
 
     def test_name(self):
         value = self.sd.name()
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
 
         value = self.sd.name(as_list=True)
         self.assertTrue(isinstance(value, list))
@@ -383,7 +384,7 @@ class TestLocalizedHelpers(unittest.TestCase):
 
     def test_surname(self):
         value = self.sd.surname()
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
 
         value = self.sd.surname(as_list=True)
         self.assertTrue(isinstance(value, list))
@@ -420,7 +421,7 @@ class TestLocalizedHelpers(unittest.TestCase):
 
     def test_fullname(self):
         value = self.sd.fullname()
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
 
         value = self.sd.fullname(as_list=True)
         self.assertTrue(isinstance(value, list))
@@ -447,12 +448,12 @@ class TestLocalizedHelpers(unittest.TestCase):
 
     def test_phone(self):
         value = self.sd.phone(locale='es')
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
         self.assertEqual(len(value), 9)
         self.assertTrue(value[0] in ['6', '9'])
 
         value = self.sd.phone(locale='es', country_code=True)
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
         self.assertEqual(len(value), 13)
         self.assertTrue(value[0:5] in ['+34 6', '+34 9'])
 
@@ -461,7 +462,7 @@ class TestLocalizedHelpers(unittest.TestCase):
 
     def test_zip_code(self):
         value = self.sd.zip_code(locale='es')
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
         self.assertEqual(len(value), 5)
 
         with self.assertRaises(ParameterError):
@@ -469,7 +470,7 @@ class TestLocalizedHelpers(unittest.TestCase):
 
     def test_id_card(self):
         value = self.sd.id_card(locale='es')
-        self.assertTrue(isinstance(value, basestring))
+        self.assertTrue(isinstance(value, six.string_types))
         self.assertEqual(len(value), 9)
         self.assertTrue(value[8] in "TRWAGMYFPDXBNJZSQVHLCKET")
 
@@ -495,21 +496,27 @@ class TestImageHelpers(unittest.TestCase):
     def test_image(self):
         value = self.sd.image(100, 100)
         self.assertTrue(isinstance(value, ImageFile))
+        value.close()
 
         value = self.sd.image(100, 100, typ="simple")
         self.assertTrue(isinstance(value, ImageFile))
+        value.close()
 
         value = self.sd.image(100, 100, typ="plasma")
         self.assertTrue(isinstance(value, ImageFile))
+        value.close()
 
         value = self.sd.image(100, 100, typ="mandelbrot")
         self.assertTrue(isinstance(value, ImageFile))
+        value.close()
 
         value = self.sd.image(100, 100, typ="ifs")
         self.assertTrue(isinstance(value, ImageFile))
+        value.close()
 
         value = self.sd.image(100, 100, typ="random")
         self.assertTrue(isinstance(value, ImageFile))
+        value.close()
 
         image_mixin.PIL_INSTALLED = False
         with self.assertRaises(ImportError):

@@ -24,6 +24,8 @@ setup(
         ]
     },
     install_requires=[
+        'six',
+        'django',
         'distribute',
     ],
     setup_requires = [
