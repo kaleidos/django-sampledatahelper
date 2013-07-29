@@ -9,7 +9,8 @@ import datetime
 import os
 import six
 
-from sampledatahelper.helper import SampleDataHelper, ModelDataHelper
+from sampledatahelper.helper import SampleDataHelper
+from sampledatahelper.model_helper import ModelDataHelper
 from sampledatahelper.exceptions import ParameterError, NotChoicesFound
 from sampledatahelper.mixins import image_mixin
 
