@@ -2,15 +2,20 @@ from django.utils import unittest
 from django.core.validators import validate_email, validate_slug, URLValidator
 from django.utils.timezone import utc
 from django.core.files.images import ImageFile
+from django.core.management import call_command
 
 import string
 import datetime
 import os
 import six
 
-from sampledatahelper.helper import SampleDataHelper
+from sampledatahelper.helper import SampleDataHelper, ModelDataHelper
 from sampledatahelper.exceptions import ParameterError, NotChoicesFound
 from sampledatahelper.mixins import image_mixin
+
+from .models import TestModel
+
+call_command('syncdb', interactive=False)
 
 
 class TestNumberHelpers(unittest.TestCase):
@@ -571,3 +576,11 @@ class TestOtherHelpers(unittest.TestCase):
     # TODO
     #def test_db_object_from_queryset(self):
     #    pass
+
+class TestModelDataHelpers(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.mdh = ModelDataHelper()
+
+    def test_fill_instance(self):
+        self.mdh.fill_model(TestModel, 1)

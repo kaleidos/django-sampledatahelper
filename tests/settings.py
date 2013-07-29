@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'sampledatahelper',
+    'tests'
 ]
 
 ALLOWED_HOSTS = ['testserver',]
