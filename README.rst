@@ -2,7 +2,7 @@ Django Sample Data Helper
 =========================
 
 .. image:: http://kaleidos.net/static/img/badge.png
-    :target: http://www.kaleidos.net/community/django-tint/
+    :target: http://www.kaleidos.net/community/django-sampledatahelper/
 
 .. image:: https://travis-ci.org/kaleidos/django-sampledatahelper.png?branch=master
     :target: https://travis-ci.org/kaleidos/django-sampledatahelper
