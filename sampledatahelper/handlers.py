@@ -25,45 +25,112 @@ class CharHandler(BaseHandler):
             return self.sd.long_sentence()
 
 class SlugHandler(BaseHandler):
-    pass
+    def generate(self):
+        value = super(SlugHandler, self).generate()
+        if value:
+            return value
+
+        if self.instance.max_length < 10:
+            return self.sd.chars(1, 10)
+        elif self.instance.max_length < 50:
+            return self.sd.slug(1, 5)[0:self.instance.max_length]
+        elif self.instance.max_length < 100:
+            return self.sd.slug(1, 10)[0:self.instance.max_length]
+        elif self.instance.max_length < 200:
+            return self.sd.slug(5, 15)[0:self.instance.max_length]
+        elif self.instance.max_length < 250:
+            return self.sd.slug(15, 25)[0:self.instance.max_length]
 
 class EmailHandler(BaseHandler):
-    pass
+    def generate(self):
+        value = super(EmailHandler, self).generate()
+        if value:
+            return value
+
+        return self.sd.email()
 
 class URLHandler(BaseHandler):
-    pass
+    def generate(self):
+        value = super(URLHandler, self).generate()
+        if value:
+            return value
+
+        return self.sd.url()
 
 class TextHandler(BaseHandler):
-    pass
+    def generate(self):
+        value = super(TextHandler, self).generate()
+        if value:
+            return value
+
+        return self.sd.paragraphs(2, 5)
 
 class IntegerHandler(BaseHandler):
-    pass
+    def generate(self):
+        value = super(IntegerHandler, self).generate()
+        if value:
+            return value
+
+        return self.sd.int(-1000000, 1000000)
 
 class SmallIntegerHandler(BaseHandler):
-    pass
+    def generate(self):
+        value = super(SmallIntegerHandler, self).generate()
+        if value:
+            return value
 
-class PositiveIntegerHandler(BaseHandler):
-    pass
+        return self.sd.int(-32000, 32000)
 
 class PositiveSmallIntegerHandler(BaseHandler):
+    def generate(self):
+        value = super(PositiveSmallIntegerHandler, self).generate()
+        if value:
+            return value
+
+        return self.sd.int(0, 65000)
+
+
+class PositiveIntegerHandler(BaseHandler):
+    def generate(self):
+        value = super(PositiveIntegerHandler, self).generate()
+        if value:
+            return value
+
+        return self.sd.int()
+
+
+class BigIntegerHandler(IntegerHandler):
     pass
 
-class BigIntegerHandler(BaseHandler):
+
+class DecimalHandler(IntegerHandler):
     pass
 
 class FloatHandler(BaseHandler):
-    pass
+    def generate(self):
+        value = super(FloatHandler, self).generate()
+        if value:
+            return value
+
+        return self.sd.float(-1000000, 1000000)
 
 class BooleanHandler(BaseHandler):
-    pass
+    def generate(self):
+        value = super(BooleanHandler, self).generate()
+        if value:
+            return value
+
+        return self.sd.boolean()
 
 class NullBooleanHandler(BaseHandler):
-    pass
+    def generate(self):
+        value = super(NullBooleanHandler, self).generate()
+        if value:
+            return value
+
+        return self.sd.nullboolean()
 
 class CommaSeparatedIntegerHandler(BaseHandler):
-    pass
-
-class DecimalHandler(BaseHandler):
     pass
 
 class DateHandler(BaseHandler):

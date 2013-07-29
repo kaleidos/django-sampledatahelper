@@ -7,6 +7,9 @@ class OtherMixin(object):
     def boolean(self):
         return random.randrange(0, 2) == 0
 
+    def nullboolean(self):
+        return random.choice([None, True, False])
+
     def choice(self, choices):
         if not isinstance(choices, list) and not isinstance(choices, tuple):
             raise ParameterError('choices must be a list or a tuple')
