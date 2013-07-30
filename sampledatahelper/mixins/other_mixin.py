@@ -34,3 +34,48 @@ class OtherMixin(object):
     def db_object_from_queryset(self, queryset):
         count = queryset.all().count()
         return queryset.all()[self.int(max_value=count)] if count > 0 else None
+
+    def ipv4(self):
+        return "{0}.{1}.{2}.{3}".format(
+            self.int(0, 255),
+            self.int(0, 255),
+            self.int(0, 255),
+            self.int(0, 255),
+        )
+
+    def ipv6(self):
+        return "{0}:{1}:{2}:{3}:{4}:{5}:{6}:{7}".format(
+            self.hex_chars(1, 4),
+            self.hex_chars(1, 4),
+            self.hex_chars(1, 4),
+            self.hex_chars(1, 4),
+            self.hex_chars(1, 4),
+            self.hex_chars(1, 4),
+            self.hex_chars(1, 4),
+            self.hex_chars(1, 4)
+        )
+
+    def hex_chars(self, min_chars, max_chars):
+        result = ""
+        for x in range(min_chars, max_chars + 1):
+            result += self.choice(['0', '1','2', '3', '4', '5', '6', '7',
+                                      '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'])
+        return result
+
+    def path(self, absolute=None, extension='', min_levels=1, max_levels=5):
+        if absolute is None:
+            absolute = self.boolean()
+
+        if absolute:
+            result = "/"
+        else:
+            result = ""
+
+        for x in range(min_levels, max_levels + 1):
+            result += self.word()
+            if x != max_levels:
+                result += "/"
+
+        result != extension
+
+        return result

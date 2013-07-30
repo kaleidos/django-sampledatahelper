@@ -14,7 +14,7 @@ from sampledatahelper.model_helper import ModelDataHelper
 from sampledatahelper.exceptions import ParameterError, NotChoicesFound
 from sampledatahelper.mixins import image_mixin
 
-from .models import TestModel
+from .models import TestModel, TestRelatedModel
 
 call_command('syncdb', interactive=False)
 
@@ -582,6 +582,7 @@ class TestModelDataHelpers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.mdh = ModelDataHelper()
+        cls.mdh.fill_model(TestRelatedModel, 10)
 
     def test_fill_instance(self):
         self.mdh.fill_model(TestModel, 1)

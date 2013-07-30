@@ -5,14 +5,12 @@ class BaseHandler(object):
 
     def generate(self):
         if self.instance.choices and len(self.instance.choices) > 0:
-            return self.sd.choices_key(self.instance.choices)
+            return self.sd.choices_key(self.instance.get_choices())
+
+        return self._generate()
 
 class CharHandler(BaseHandler):
-    def generate(self):
-        value = super(CharHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         if self.instance.max_length < 10:
             return self.sd.chars(1, 10)
         elif self.instance.max_length < 50:
@@ -21,15 +19,11 @@ class CharHandler(BaseHandler):
             return self.sd.words(1, 10)[0:self.instance.max_length]
         elif self.instance.max_length < 200:
             return self.sd.short_sentence()
-        elif self.instance.max_length < 250:
+        else:
             return self.sd.long_sentence()
 
 class SlugHandler(BaseHandler):
-    def generate(self):
-        value = super(SlugHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         if self.instance.max_length < 10:
             return self.sd.chars(1, 10)
         elif self.instance.max_length < 50:
@@ -42,60 +36,32 @@ class SlugHandler(BaseHandler):
             return self.sd.slug(15, 25)[0:self.instance.max_length]
 
 class EmailHandler(BaseHandler):
-    def generate(self):
-        value = super(EmailHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.email()
 
 class URLHandler(BaseHandler):
-    def generate(self):
-        value = super(URLHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.url()
 
 class TextHandler(BaseHandler):
-    def generate(self):
-        value = super(TextHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.paragraphs(2, 5)
 
 class IntegerHandler(BaseHandler):
-    def generate(self):
-        value = super(IntegerHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.int(-1000000, 1000000)
 
 class SmallIntegerHandler(BaseHandler):
-    def generate(self):
-        value = super(SmallIntegerHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.int(-32000, 32000)
 
 class PositiveSmallIntegerHandler(BaseHandler):
-    def generate(self):
-        value = super(PositiveSmallIntegerHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.int(0, 65000)
 
 
 class PositiveIntegerHandler(BaseHandler):
-    def generate(self):
-        value = super(PositiveIntegerHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.int()
 
 
@@ -107,62 +73,66 @@ class DecimalHandler(IntegerHandler):
     pass
 
 class FloatHandler(BaseHandler):
-    def generate(self):
-        value = super(FloatHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.float(-1000000, 1000000)
 
 class BooleanHandler(BaseHandler):
-    def generate(self):
-        value = super(BooleanHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.boolean()
 
 class NullBooleanHandler(BaseHandler):
-    def generate(self):
-        value = super(NullBooleanHandler, self).generate()
-        if value:
-            return value
-
+    def _generate(self):
         return self.sd.nullboolean()
 
 class CommaSeparatedIntegerHandler(BaseHandler):
-    pass
+    def _generate(self):
+        integers = []
+        for x in range(self.sd.int(3, 8)):
+            integers.append(str(self.sd.int(0, 1000)))
+
+        return ",".join(integers)
 
 class DateHandler(BaseHandler):
-    pass
+    def _generate(self):
+        return self.sd.date()
 
 class DateTimeHandler(BaseHandler):
-    pass
+    def _generate(self):
+        return self.sd.datetime()
 
 class TimeHandler(BaseHandler):
-    pass
+    def _generate(self):
+        return self.sd.time()
 
 class FileHandler(BaseHandler):
-    pass
+    def _generate(self):
+        return self.sd.image(100, 100, 'random')
 
 class FilePathHandler(BaseHandler):
-    pass
+    def _generate(self):
+        return self.sd.path()
 
 class ImageHandler(BaseHandler):
-    pass
+    def _generate(self):
+        return self.sd.image(100, 100, 'random')
 
 class IPAddressHandler(BaseHandler):
-    pass
+    def _generate(self):
+        return self.sd.ipv4()
 
 class GenericIPAddressHandler(BaseHandler):
-    pass
+    def _generate(self):
+        if self.sd.boolean():
+            return self.sd.ipv4()
+        else:
+            return self.sd.ipv6()
 
 class ForeignKeyHandler(BaseHandler):
-    pass
+    def _generate(self):
+        if self.instance.rel.limit_choices_to:
+            return self.sd.db_object_from_queryset(self.instance.rel.to.objects.filter(**self.instance.rel.limit_choices_to))
+        else:
+            return self.sd.db_object(self.instance.rel.to)
 
-class OneToOneHandler(BaseHandler):
+class OneToOneHandler(ForeignKeyHandler):
     pass
-
-class ManyToManyHandler(BaseHandler):
-    pass
-

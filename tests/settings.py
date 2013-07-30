@@ -22,3 +22,5 @@ INSTALLED_APPS = [
 ALLOWED_HOSTS = ['testserver',]
 
 BACKEND_SESSION_KEY = "test"
+
+USE_TZ = True

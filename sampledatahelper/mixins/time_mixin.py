@@ -87,3 +87,12 @@ class TimeMixin(object):
             raise ParameterError('begin greater than end')
 
         return dt.datetime.utcnow().replace(tzinfo=utc) - dt.timedelta(minutes=random.randrange(begin, end))
+
+    def time(self):
+        """Random time"""
+        return dt.time(
+            self.int(0, 23),
+            self.int(0, 59),
+            self.int(0, 59),
+            self.int(0, 999999),
+        )

@@ -4,6 +4,7 @@ from sampledatahelper import handlers
 
 class Register(object):
     fields = {}
+    ignored_fields = []
     _instance = None
     sd = SampleDataHelper()
 
@@ -15,7 +16,12 @@ class Register(object):
     def register(self, field_class, handler_class):
         self.fields[field_class] = handler_class
 
+    def ignore(self, field_class):
+        self.ignored_fields.append(field_class)
+
     def get_handler(self, field_instance):
+        if field_instance.__class__ in self.ignored_fields:
+            return None
         return self.fields[field_instance.__class__](self.sd, field_instance)
 
 register = Register()
@@ -46,4 +52,5 @@ register.register(models.IPAddressField, handlers.IPAddressHandler)
 register.register(models.GenericIPAddressField, handlers.GenericIPAddressHandler)
 register.register(models.ForeignKey, handlers.ForeignKeyHandler)
 register.register(models.OneToOneField, handlers.OneToOneHandler)
-register.register(models.ManyToManyField, handlers.ManyToManyHandler)
+register.ignore(models.ManyToManyField)
+register.ignore(models.AutoField)
