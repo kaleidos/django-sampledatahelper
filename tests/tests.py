@@ -623,7 +623,7 @@ class TestOtherHelpers(unittest.TestCase):
         mdh = ModelDataHelper()
 
         with self.assertRaises(NotChoicesFound):
-            print self.sd.db_object(TestRelatedModel)
+            self.sd.db_object(TestRelatedModel)
 
         mdh.fill_model(TestRelatedModel, 1)
 
@@ -637,7 +637,7 @@ class TestOtherHelpers(unittest.TestCase):
         mdh = ModelDataHelper()
 
         with self.assertRaises(NotChoicesFound):
-            print self.sd.db_object_from_queryset(TestRelatedModel.objects.all())
+            self.sd.db_object_from_queryset(TestRelatedModel.objects.all())
 
         mdh.fill_model(TestRelatedModel, 10)
 
