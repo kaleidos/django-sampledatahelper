@@ -119,6 +119,11 @@ Time methods
 
     Return a past datetime between now-max_distance and now-min_distance in minutes
 
+.. function:: time()
+
+    Return a time
+
+
 Localized methods
 -----------------
 
@@ -183,6 +188,32 @@ Other methods
 .. function:: boolean()
 
     Return a boolean value
+
+.. function:: nullboolean()
+
+    Return a boolean value or a None
+
+.. function:: ipv4()
+
+    Return a ipv4 address
+
+.. function:: ipv6()
+
+    Return a ipv6 address
+
+.. function:: mac_address()
+
+    Return a mac address
+
+.. function:: hex_chars(min_chars=1, max_chars=5)
+
+    Return a string with n characters between a-f and 0-9 being
+    min_chars <= n <= max_chars
+
+.. function:: path(absolute=None, extension='', min_levels=1, max_levels=5)
+
+    Return a absolute or relative path (based on `absolute` parameter) string
+    finished in `extension`, and with n levels being min_levels <= n <= max_levels
 
 .. function:: choice(choices)
 

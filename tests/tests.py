@@ -320,6 +320,10 @@ class TestTimeHelpers(unittest.TestCase):
         with self.assertRaises(ParameterError):
             self.sd.datetime(100, 0)
 
+    def test_time(self):
+        value = self.sd.time()
+        self.assertTrue(isinstance(value, datetime.time))
+
 
 class TestLocalizedHelpers(unittest.TestCase):
     @classmethod

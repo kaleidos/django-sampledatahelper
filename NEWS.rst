@@ -9,6 +9,7 @@
     - mac address
     - hex_chars
     - path
+    - time
 
 0.1.0
 =====
