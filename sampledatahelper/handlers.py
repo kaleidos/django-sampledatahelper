@@ -5,7 +5,7 @@ class BaseHandler(object):
 
     def generate(self):
         if self.instance.choices and len(self.instance.choices) > 0:
-            return self.sd.choices_key(self.instance.get_choices())
+            return self.sd.choices_key(self.instance.choices)
 
         return self._generate()
 

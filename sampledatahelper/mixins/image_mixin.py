@@ -52,6 +52,6 @@ class ImageMixin(object):
 
         im.save(tfname)
 
-        im_file = ImageFile(open(tfname, 'r'))
+        im_file = ImageFile(open(tfname, 'rb'))
 
         return im_file

@@ -259,15 +259,17 @@ class TestTimeHelpers(unittest.TestCase):
             )
 
     def test_future_datetime(self):
+        now = datetime.datetime.utcnow().replace(tzinfo=utc)
         value = self.sd.future_datetime()
         self.assertTrue(isinstance(value, datetime.datetime))
 
-        self.assertTrue(value >= datetime.datetime.utcnow().replace(tzinfo=utc))
-        self.assertTrue(value <= (datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta(minutes=1440)))
+        self.assertTrue(value >= now)
+        self.assertTrue(value <= (now + datetime.timedelta(minutes=1440)))
 
+        now = datetime.datetime.utcnow().replace(tzinfo=utc)
         value = self.sd.future_datetime(1, 10)
-        self.assertTrue(value >= datetime.datetime.utcnow().replace(tzinfo=utc))
-        self.assertTrue(value <= (datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta(minutes=10)))
+        self.assertTrue(value >= now)
+        self.assertTrue(value <= (now + datetime.timedelta(minutes=10)))
 
         with self.assertRaises(ParameterError):
             self.sd.future_datetime(100, 0)
