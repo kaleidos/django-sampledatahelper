@@ -546,6 +546,51 @@ class TestOtherHelpers(unittest.TestCase):
     def test_boolean(self):
         self.assertTrue(isinstance(self.sd.boolean(), bool))
 
+    def test_ipv4(self):
+        value = self.sd.ipv4()
+        self.assertTrue(isinstance(value, six.string_types))
+        self.assertEqual(len(value.split('.')), 4)
+
+    def test_ipv6(self):
+        value = self.sd.ipv6()
+        self.assertTrue(isinstance(value, six.string_types))
+        self.assertEqual(len(value.split(':')), 8)
+
+    def test_mac_address(self):
+        value = self.sd.mac_address()
+        self.assertTrue(isinstance(value, six.string_types))
+        self.assertEqual(len(value.split(':')), 6)
+
+    def test_path(self):
+        value = self.sd.path()
+        self.assertTrue(isinstance(value, six.string_types))
+
+        value = self.sd.path(absolute=False, min_levels=5, max_levels=5)
+        self.assertEqual(len(value.split('/')), 5)
+
+        value = self.sd.path(absolute=True, min_levels=5, max_levels=5)
+        self.assertEqual(len(value.split('/')), 6)
+
+        value = self.sd.path(extension=".jpg")
+        self.assertEqual(value[-4:], ".jpg")
+
+        with self.assertRaises(ParameterError):
+            self.sd.path(absolute=True, min_levels=10, max_levels=5)
+
+    def test_hex_chars(self):
+        value = self.sd.hex_chars()
+        self.assertTrue(isinstance(value, six.string_types))
+        self.assertTrue(len(value) >= 1)
+        self.assertTrue(len(value) <= 5)
+
+        value = self.sd.hex_chars(5, 5)
+        self.assertTrue(len(value) == 5)
+
+        self.assertEqual(self.sd.hex_chars(0, 0), '')
+
+        with self.assertRaises(ParameterError):
+            value = self.sd.hex_chars(10, 5)
+
     def test_choice(self):
         self.assertEqual(self.sd.choice([10]), 10)
 
@@ -570,19 +615,43 @@ class TestOtherHelpers(unittest.TestCase):
         with self.assertRaises(ParameterError):
             self.sd.choices_key([10])
 
-    # TODO
-    #def test_db_object(self):
-    #    pass
+    def test_db_object(self):
+        mdh = ModelDataHelper()
 
-    # TODO
-    #def test_db_object_from_queryset(self):
-    #    pass
+        with self.assertRaises(NotChoicesFound):
+            print self.sd.db_object(TestRelatedModel)
+
+        mdh.fill_model(TestRelatedModel, 1)
+
+        self.assertTrue(isinstance(
+                self.sd.db_object(TestRelatedModel),
+                TestRelatedModel
+        ))
+        TestRelatedModel.objects.all().delete()
+
+    def test_db_object_from_queryset(self):
+        mdh = ModelDataHelper()
+
+        with self.assertRaises(NotChoicesFound):
+            print self.sd.db_object_from_queryset(TestRelatedModel.objects.all())
+
+        mdh.fill_model(TestRelatedModel, 10)
+
+        self.assertTrue(isinstance(
+                self.sd.db_object_from_queryset(TestRelatedModel.objects.all()),
+                TestRelatedModel
+        ))
+        TestRelatedModel.objects.all().delete()
 
 class TestModelDataHelpers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.mdh = ModelDataHelper()
         cls.mdh.fill_model(TestRelatedModel, 10)
+
+    @classmethod
+    def tearDownClass(cls):
+        TestRelatedModel.objects.all().delete()
 
     def test_fill_instance(self):
         self.mdh.fill_model(TestModel, 1)

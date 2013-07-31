@@ -1,3 +1,15 @@
+0.2.0
+=====
+
+  - Adding more unit testing
+  - Adding ModelDataHelper to fill models automatically
+  - Adding new generators:
+    - IPv4
+    - IPv6
+    - mac address
+    - hex_chars
+    - path
+
 0.1.0
 =====
 

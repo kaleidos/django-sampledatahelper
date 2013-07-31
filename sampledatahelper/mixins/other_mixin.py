@@ -1,6 +1,6 @@
 import random
 
-from ..exceptions import ParameterError
+from ..exceptions import ParameterError, NotChoicesFound
 
 
 class OtherMixin(object):
@@ -29,11 +29,17 @@ class OtherMixin(object):
             raise ParameterError('choices must be a valid django choices list')
 
     def db_object(self, model):
-        return self.db_object_from_queryset(model.objects.all())
+        if model.objects.all().count() > 0:
+            return self.db_object_from_queryset(model.objects.all())
+        else:
+            raise NotChoicesFound('Emtpy queryset')
 
     def db_object_from_queryset(self, queryset):
         count = queryset.all().count()
-        return queryset.all()[self.int(max_value=count)] if count > 0 else None
+        if count > 0:
+            return queryset.all()[self.int(max_value=count-1)]
+        else:
+            raise NotChoicesFound('Emtpy queryset')
 
     def ipv4(self):
         return "{0}.{1}.{2}.{3}".format(
@@ -55,14 +61,32 @@ class OtherMixin(object):
             self.hex_chars(1, 4)
         )
 
-    def hex_chars(self, min_chars, max_chars):
+    def mac_address(self):
+        return "{0}:{1}:{2}:{3}:{4}:{5}".format(
+            self.hex_chars(2, 2),
+            self.hex_chars(2, 2),
+            self.hex_chars(2, 2),
+            self.hex_chars(2, 2),
+            self.hex_chars(2, 2),
+            self.hex_chars(2, 2),
+        )
+
+    def hex_chars(self, min_chars=1, max_chars=5):
+
+        if min_chars > max_chars:
+            raise ParameterError('min_chars greater than max_chars')
+
         result = ""
-        for x in range(min_chars, max_chars + 1):
+        chars = random.randint(min_chars, max_chars)
+        for x in range(chars):
             result += self.choice(['0', '1','2', '3', '4', '5', '6', '7',
                                       '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'])
         return result
 
     def path(self, absolute=None, extension='', min_levels=1, max_levels=5):
+        if min_levels > max_levels:
+            raise ParameterError('min_levels greater than max_levels')
+
         if absolute is None:
             absolute = self.boolean()
 
@@ -71,11 +95,12 @@ class OtherMixin(object):
         else:
             result = ""
 
-        for x in range(min_levels, max_levels + 1):
+        levels = random.randint(min_levels, max_levels)
+        for x in range(levels):
             result += self.word()
-            if x != max_levels:
+            if x != max_levels - 1:
                 result += "/"
 
-        result != extension
+        result += extension
 
         return result

@@ -16,7 +16,6 @@ class ModelDataHelper(object):
         handler = register.get_handler(field[1])
         if handler:
             value = handler.generate()
-            print value
             setattr(instance, field[0], value)
 
     def fill_model(self, model, number, **kwargs):

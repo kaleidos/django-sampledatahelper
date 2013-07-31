@@ -49,9 +49,9 @@ class TestModel(models.Model):
     datetime = models.DateTimeField()
     time = models.TimeField()
 
-    file = models.FileField(upload_to="tests")
+    file = models.FileField(upload_to="tests/tmp")
     file_path = models.FilePathField()
-    image = models.ImageField(upload_to="tests")
+    image = models.ImageField(upload_to="tests/tmp")
 
     ip = models.IPAddressField()
     generic_ip = models.GenericIPAddressField()
