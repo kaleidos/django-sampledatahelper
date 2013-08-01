@@ -23,7 +23,3 @@ fields.
 
     Fill a instance of a django model. You can overwrite the default data
     generator adding extra kwargs arguments like in `fill_model` method.
-
-.. method:: ModelDataHelper.fill_model_instance_field(instance, field)
-
-    Fill a field of a django model instance with random data.

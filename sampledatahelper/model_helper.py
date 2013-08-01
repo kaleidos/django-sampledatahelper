@@ -9,11 +9,14 @@ class ModelDataHelper(object):
     def __init__(self, seed=None):
         self.sd = SampleDataHelper(seed)
 
-    def fill_model_instance_field(self, instance, field):
-        handler = register.get_handler(field[1])
-        if handler:
-            value = handler.generate()
-            setattr(instance, field[0], value)
+    def __get_instance_fields(self, instance):
+        fields = []
+        for field_name in instance._meta.get_all_field_names():
+            try:
+                fields.append((field_name, instance._meta.get_field(field_name)))
+            except FieldDoesNotExist:
+                pass
+        return fields
 
     def fill_model(self, model, number, **kwargs):
         if number <= 0:
@@ -27,33 +30,23 @@ class ModelDataHelper(object):
             self.fill_model_instance(instance, **kwargs)
             instance.save()
 
-    def __get_instance_fields(self, instance):
-        fields = []
-        for field_name in instance._meta.get_all_field_names():
-            try:
-                fields.append((field_name, instance._meta.get_field(field_name)))
-            except FieldDoesNotExist:
-                pass
-        return fields
-
     def fill_model_instance(self, instance, **kwargs):
         if not isinstance(instance, models.Model):
             raise ParameterError('instance must be a django model instance')
 
         for field in self.__get_instance_fields(instance):
             field_name = field[0]
+            field_obj = field[1]
+
             if field_name in kwargs:
                 if hasattr(kwargs[field_name], '__call__'):
-                    setattr(
-                        instance,
-                        field_name,
-                        kwargs[field_name](self, self.sd)
-                    )
+                    value = kwargs[field_name](instance, self.sd)
                 else:
-                    setattr(
-                        instance,
-                        field_name,
-                        kwargs[field_name],
-                    )
+                    value = kwargs[field_name]
+                setattr(instance, field_name, value)
             else:
-                self.fill_model_instance_field(instance, field)
+                handler = register.get_handler(field_obj)
+                if handler:
+                    value = handler.generate()
+                    setattr(instance, field_name, value)
+
