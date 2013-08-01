@@ -9,6 +9,7 @@ class BaseHandler(object):
 
         return self._generate()
 
+
 class CharHandler(BaseHandler):
     def _generate(self):
         if self.instance.max_length < 10:
@@ -21,6 +22,7 @@ class CharHandler(BaseHandler):
             return self.sd.short_sentence()
         else:
             return self.sd.long_sentence()
+
 
 class SlugHandler(BaseHandler):
     def _generate(self):
@@ -35,25 +37,31 @@ class SlugHandler(BaseHandler):
         else:
             return self.sd.slug(15, 25)[0:self.instance.max_length]
 
+
 class EmailHandler(BaseHandler):
     def _generate(self):
         return self.sd.email()
+
 
 class URLHandler(BaseHandler):
     def _generate(self):
         return self.sd.url()
 
+
 class TextHandler(BaseHandler):
     def _generate(self):
         return self.sd.paragraphs(2, 5)
+
 
 class IntegerHandler(BaseHandler):
     def _generate(self):
         return self.sd.int(-1000000, 1000000)
 
+
 class SmallIntegerHandler(BaseHandler):
     def _generate(self):
         return self.sd.int(-32000, 32000)
+
 
 class PositiveSmallIntegerHandler(BaseHandler):
     def _generate(self):
@@ -72,17 +80,21 @@ class BigIntegerHandler(IntegerHandler):
 class DecimalHandler(IntegerHandler):
     pass
 
+
 class FloatHandler(BaseHandler):
     def _generate(self):
         return self.sd.float(-1000000, 1000000)
+
 
 class BooleanHandler(BaseHandler):
     def _generate(self):
         return self.sd.boolean()
 
+
 class NullBooleanHandler(BaseHandler):
     def _generate(self):
         return self.sd.nullboolean()
+
 
 class CommaSeparatedIntegerHandler(BaseHandler):
     def _generate(self):
@@ -92,33 +104,41 @@ class CommaSeparatedIntegerHandler(BaseHandler):
 
         return ",".join(integers)
 
+
 class DateHandler(BaseHandler):
     def _generate(self):
         return self.sd.date()
+
 
 class DateTimeHandler(BaseHandler):
     def _generate(self):
         return self.sd.datetime()
 
+
 class TimeHandler(BaseHandler):
     def _generate(self):
         return self.sd.time()
+
 
 class FileHandler(BaseHandler):
     def _generate(self):
         return self.sd.image(100, 100, 'random')
 
+
 class FilePathHandler(BaseHandler):
     def _generate(self):
         return self.sd.path()
+
 
 class ImageHandler(BaseHandler):
     def _generate(self):
         return self.sd.image(100, 100, 'random')
 
+
 class IPAddressHandler(BaseHandler):
     def _generate(self):
         return self.sd.ipv4()
+
 
 class GenericIPAddressHandler(BaseHandler):
     def _generate(self):
@@ -126,6 +146,7 @@ class GenericIPAddressHandler(BaseHandler):
             return self.sd.ipv4()
         else:
             return self.sd.ipv6()
+
 
 class ForeignKeyHandler(BaseHandler):
     def _generate(self):
@@ -135,6 +156,7 @@ class ForeignKeyHandler(BaseHandler):
             queryset = self.instance.rel.to.objects.all()
         return self.sd.db_object_from_queryset(queryset)
 
+
 class OneToOneHandler(ForeignKeyHandler):
     def _generate(self):
         if self.instance.rel.limit_choices_to:
@@ -142,5 +164,6 @@ class OneToOneHandler(ForeignKeyHandler):
                 **self.instance.rel.limit_choices_to
             ).exclude(id__in=self.instance.model.objects.all().values(self.instance.name))
         else:
-            queryset = self.instance.rel.to.objects.all().exclude(id__in=self.instance.model.objects.all().values(self.instance.name))
+            quersyet = self.instance.rel.to.objects.all()
+            queryset = quersyet.exclude(id__in=self.instance.model.objects.all().values(self.instance.name))
         return self.sd.db_object_from_queryset(queryset)

@@ -544,6 +544,7 @@ class TestImageHelpers(unittest.TestCase):
         with self.assertRaises(ParameterError):
             value = self.sd.image(100, 0)
 
+
 class TestOtherHelpers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -630,8 +631,8 @@ class TestOtherHelpers(unittest.TestCase):
         mdh.fill_model(TestRelatedModel, 1)
 
         self.assertTrue(isinstance(
-                self.sd.db_object(TestRelatedModel),
-                TestRelatedModel
+            self.sd.db_object(TestRelatedModel),
+            TestRelatedModel
         ))
         TestRelatedModel.objects.all().delete()
 
@@ -644,10 +645,11 @@ class TestOtherHelpers(unittest.TestCase):
         mdh.fill_model(TestRelatedModel, 10)
 
         self.assertTrue(isinstance(
-                self.sd.db_object_from_queryset(TestRelatedModel.objects.all()),
-                TestRelatedModel
+            self.sd.db_object_from_queryset(TestRelatedModel.objects.all()),
+            TestRelatedModel
         ))
         TestRelatedModel.objects.all().delete()
+
 
 class TestModelDataHelpers(unittest.TestCase):
     @classmethod

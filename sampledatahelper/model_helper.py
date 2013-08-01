@@ -5,6 +5,7 @@ from .helper import SampleDataHelper
 from .exceptions import ParameterError
 from .register import register
 
+
 class ModelDataHelper(object):
     def __init__(self, seed=None):
         self.sd = SampleDataHelper(seed)
@@ -49,4 +50,3 @@ class ModelDataHelper(object):
                 if handler:
                     value = handler.generate()
                     setattr(instance, field_name, value)
-

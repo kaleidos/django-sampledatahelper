@@ -2,6 +2,7 @@ from django.db import models
 from sampledatahelper.helper import SampleDataHelper
 from sampledatahelper import handlers
 
+
 class Register(object):
     fields = {}
     ignored_fields = []

@@ -79,8 +79,8 @@ class OtherMixin(object):
         result = ""
         chars = random.randint(min_chars, max_chars)
         for x in range(chars):
-            result += self.choice(['0', '1','2', '3', '4', '5', '6', '7',
-                                      '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'])
+            result += self.choice(['0', '1', '2', '3', '4', '5', '6', '7',
+                                   '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'])
         return result
 
     def path(self, absolute=None, extension='', min_levels=1, max_levels=5):
