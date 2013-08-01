@@ -27,9 +27,17 @@ class TestModel(models.Model):
     very_short_char = models.CharField(max_length=2)
     short_char = models.CharField(max_length=10)
     char = models.CharField(max_length=30)
+    middle_char = models.CharField(max_length=75)
     long_char = models.CharField(max_length=120)
     longer_char = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=100)
+
+    very_short_slug = models.SlugField(max_length=2)
+    short_slug = models.SlugField(max_length=10)
+    slug = models.SlugField(max_length=30)
+    middle_slug = models.SlugField(max_length=75)
+    long_slug = models.SlugField(max_length=120)
+    longer_slug = models.SlugField(max_length=250)
+
     email = models.EmailField()
     url = models.URLField()
     text = models.TextField()
@@ -63,4 +71,5 @@ class TestModel(models.Model):
     # With choices
     integer_choices = models.IntegerField(choices=INTEGER_CHOICES)
     char_choices = models.CharField(max_length=30, choices=CHAR_CHOICES)
-    foreing_key_choices = models.ForeignKey('tests.TestRelatedModel', related_name="test_related_4", limit_choices_to={'id__gt': 2})
+    foreing_key_choices = models.ForeignKey('tests.TestRelatedModel', related_name="test_related_4", limit_choices_to={'id__gt': 0})
+    one_to_one_key_choices = models.OneToOneField('tests.TestRelatedModel', related_name="test_related_5", limit_choices_to={'id__gt': 0})

@@ -32,7 +32,7 @@ class SlugHandler(BaseHandler):
             return self.sd.slug(1, 10)[0:self.instance.max_length]
         elif self.instance.max_length < 200:
             return self.sd.slug(5, 15)[0:self.instance.max_length]
-        elif self.instance.max_length < 250:
+        else:
             return self.sd.slug(15, 25)[0:self.instance.max_length]
 
 class EmailHandler(BaseHandler):
