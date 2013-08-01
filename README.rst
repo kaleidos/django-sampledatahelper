@@ -26,7 +26,7 @@ Sample data command for generate instances of MyModel
 .. code:: python
 
   from django.core.management.base import BaseCommand
-  from django.contrib.auth.models import User
+  from myapp.models import MyModel
   from sampledatahelper.model_helper import ModelDataHelper
   from sampledatahelper.helper import SampleDataHelper
   

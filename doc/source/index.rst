@@ -13,6 +13,7 @@ Contents:
 
    install_and_configure
    quick_start
+   model_helper
    api
 
 

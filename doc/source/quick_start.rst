@@ -10,7 +10,51 @@ generate everything. Anyway you have to build a command files.
 The file must be in `<app-module>/management/commands/<command-name>.py` can be
 something like `myapp/management/commands/mysampledata.py`.
 
-And finally the command file content can be like this::
+
+Using ModelDataHelper
+----------------------
+
+The easy way to build your command is using ModelDataHelper.
+
+.. code:: python
+
+  from django.core.management.base import BaseCommand
+  from myapp.models import MyModel
+  from sampledatahelper.model_helper import ModelDataHelper
+  from sampledatahelper.helper import SampleDataHelper
+  
+  class Command(BaseCommand):
+      args = ''
+      help = 'Example data generator'
+      mdh = ModelDataHelper(seed=12345678901)
+  
+      def handle(self, *args, **options):
+          print "Generating MyModel data"
+          # Generate 5 instances completly random
+          self.mdh.fill_model(MyModel, 5)
+  
+          # Generate 5 instances selecting random method for some fields
+          self.mdh.fill_model(MyModel,
+                              5,
+                              my_int_field={
+                                  'method': SampleDataHelper.int,
+                                  'args': [5, 10]
+                              })
+  
+          # Generate 5 instances with fixed data in a field
+          self.mdh.fill_model(MyModel, 5, my_int_field=8)
+
+To generate your sampledata, simply run the created command, for example::
+
+  python manage.py mysampledata
+
+Using SampleDataHelper directly
+-------------------------------
+
+If you want you can build your instances manually using SampleDataHelper object
+directly.
+
+.. code:: python
 
   from django.core.management.base import BaseCommand
   from myapp.models import MyModel
@@ -35,11 +79,7 @@ And finally the command file content can be like this::
                   expected_death_date=self.sd.future_date(),
                   my_related_object=self.sd.db_object(MyRelatedModel)
               )
-
+  
       def handle(self, *args, **options):
           print "Generating MyModel data"
           self.generate_mymodel_data(5)
-
-To generate your sampledata, simply run the created command, for example::
-
-  python manage.py mysampledata
