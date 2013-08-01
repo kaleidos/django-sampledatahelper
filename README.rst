@@ -43,12 +43,13 @@ Sample data command for generate instances of MyModel
           # Generate 5 instances selecting random method for some fields
           self.mdh.fill_model(MyModel,
                               5,
-                              my_int_field={'method': SampleDataHelper.int, 'args': [5, 10]})
+                              my_int_field={
+                                  'method': SampleDataHelper.int,
+                                  'args': [5, 10]
+                              })
   
           # Generate 5 instances with fixed data in a field
-          self.mdh.fill_model(MyModel,
-                              5,
-                              my_int_field=8)
+          self.mdh.fill_model(MyModel, 5, my_int_field=8)
 
 Documentation
 -------------
