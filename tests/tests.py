@@ -659,5 +659,34 @@ class TestModelDataHelpers(unittest.TestCase):
     def tearDownClass(cls):
         TestRelatedModel.objects.all().delete()
 
-    def test_fill_instance(self):
-        self.mdh.fill_model(TestModel, 1)
+    def test_fill_model_instance(self):
+        instance = TestModel()
+        self.mdh.fill_model_instance(instance)
+
+        with self.assertRaises(ParameterError):
+            self.mdh.fill_model_instance(unittest.TestCase)
+
+        self.mdh.fill_model_instance(instance, integer={'method': SampleDataHelper.int, 'args': [5, 5]})
+        self.assertEqual(instance.integer, 5)
+
+        self.mdh.fill_model_instance(instance, integer=15)
+        self.assertEqual(instance.integer, 15)
+
+    def test_fill_model(self):
+        self.mdh.fill_model(TestModel, 5)
+
+        with self.assertRaises(ParameterError):
+            self.mdh.fill_model(TestModel, 0)
+
+        with self.assertRaises(ParameterError):
+            self.mdh.fill_model(unittest.TestCase, 5)
+
+        TestModel.objects.all().delete()
+
+        self.mdh.fill_model(TestModel, 5, integer={'method': SampleDataHelper.int, 'args': [5, 5]})
+        self.assertEqual(TestModel.objects.all()[0].integer, 5)
+
+        TestModel.objects.all().delete()
+
+        self.mdh.fill_model(TestModel, 5, integer=15)
+        self.assertEqual(TestModel.objects.all()[0].integer, 15)

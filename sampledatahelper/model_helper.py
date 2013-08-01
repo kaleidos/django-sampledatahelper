@@ -9,9 +9,6 @@ class ModelDataHelper(object):
     def __init__(self, seed=None):
         self.sd = SampleDataHelper(seed)
 
-    def __get_model_fields():
-        return model._meta.fields
-
     def fill_model_instance_field(self, instance, field):
         handler = register.get_handler(field[1])
         if handler:
@@ -44,22 +41,23 @@ class ModelDataHelper(object):
             raise ParameterError('instance must be a django model instance')
 
         for field in self.__get_instance_fields(instance):
-            if field in kwargs:
-                if isinstance(kwargs[field], dict) and 'method' in kwargs[field]:
+            field_name = field[0]
+            if field_name in kwargs:
+                if isinstance(kwargs[field_name], dict) and 'method' in kwargs[field_name]:
                     setattr(
                         instance,
-                        field,
-                        kwargs[field]['method'](
+                        field_name,
+                        kwargs[field_name]['method'](
                             self.sd,
-                            *kwargs[field]['args'],
-                            **kwargs[field]['kwargs']
+                            *kwargs[field_name].get('args', []),
+                            **kwargs[field_name].get('kwargs', {})
                         )
                     )
                 else:
                     setattr(
                         instance,
-                        field,
-                        kwargs[field]['method'],
+                        field_name,
+                        kwargs[field_name],
                     )
             else:
                 self.fill_model_instance_field(instance, field)

@@ -130,9 +130,17 @@ class GenericIPAddressHandler(BaseHandler):
 class ForeignKeyHandler(BaseHandler):
     def _generate(self):
         if self.instance.rel.limit_choices_to:
-            return self.sd.db_object_from_queryset(self.instance.rel.to.objects.filter(**self.instance.rel.limit_choices_to))
+            queryset = self.instance.rel.to.objects.filter(**self.instance.rel.limit_choices_to)
         else:
-            return self.sd.db_object(self.instance.rel.to)
+            queryset = self.instance.rel.to.objects.all()
+        return self.sd.db_object_from_queryset(queryset)
 
 class OneToOneHandler(ForeignKeyHandler):
-    pass
+    def _generate(self):
+        if self.instance.rel.limit_choices_to:
+            queryset = self.instance.rel.to.objects.filter(
+                **self.instance.rel.limit_choices_to
+            ).exclude(id__in=self.instance.model.objects.all().values(self.instance.name))
+        else:
+            queryset = self.instance.rel.to.objects.all().exclude(id__in=self.instance.model.objects.all().values(self.instance.name))
+        return self.sd.db_object_from_queryset(queryset)
