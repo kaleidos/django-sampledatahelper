@@ -36,10 +36,7 @@ The easy way to build your command is using ModelDataHelper.
           # Generate 5 instances selecting random method for some fields
           self.mdh.fill_model(MyModel,
                               5,
-                              my_int_field={
-                                  'method': SampleDataHelper.int,
-                                  'args': [5, 10]
-                              })
+                              my_int_field=lambda instance, sd: sd.int(5, 10))
   
           # Generate 5 instances with fixed data in a field
           self.mdh.fill_model(MyModel, 5, my_int_field=8)

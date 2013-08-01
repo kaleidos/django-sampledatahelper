@@ -666,7 +666,7 @@ class TestModelDataHelpers(unittest.TestCase):
         with self.assertRaises(ParameterError):
             self.mdh.fill_model_instance(unittest.TestCase)
 
-        self.mdh.fill_model_instance(instance, integer={'method': SampleDataHelper.int, 'args': [5, 5]})
+        self.mdh.fill_model_instance(instance, integer=lambda _, sd: sd.int(5, 5))
         self.assertEqual(instance.integer, 5)
 
         self.mdh.fill_model_instance(instance, integer=15)
@@ -683,7 +683,7 @@ class TestModelDataHelpers(unittest.TestCase):
 
         TestModel.objects.all().delete()
 
-        self.mdh.fill_model(TestModel, 5, integer={'method': SampleDataHelper.int, 'args': [5, 5]})
+        self.mdh.fill_model(TestModel, 5, integer=lambda _, sd: sd.int(5, 5))
         self.assertEqual(TestModel.objects.all()[0].integer, 5)
 
         TestModel.objects.all().delete()

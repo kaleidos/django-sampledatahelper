@@ -43,15 +43,11 @@ class ModelDataHelper(object):
         for field in self.__get_instance_fields(instance):
             field_name = field[0]
             if field_name in kwargs:
-                if isinstance(kwargs[field_name], dict) and 'method' in kwargs[field_name]:
+                if hasattr(kwargs[field_name], '__call__'):
                     setattr(
                         instance,
                         field_name,
-                        kwargs[field_name]['method'](
-                            self.sd,
-                            *kwargs[field_name].get('args', []),
-                            **kwargs[field_name].get('kwargs', {})
-                        )
+                        kwargs[field_name](self, self.sd)
                     )
                 else:
                     setattr(

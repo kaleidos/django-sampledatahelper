@@ -16,9 +16,8 @@ fields.
 
     To overwrite a field generation behavior you have to add a extra argument
     with the name of the field, and the value must be, a fixed value or a
-    dictionary with a key 'method', and optionally the keys 'args' and
-    'kwargs'. The method must be a SampleDataHelper method, the args must be a
-    list, and the kwargs must be a dictionary.
+    callable object that receive 2 parameters, the model instance, and a
+    SampleDataHelper instance.
 
 .. method:: ModelDataHelper.fill_model_instance(instance, \*\*kwargs)
 
