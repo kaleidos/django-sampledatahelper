@@ -17,7 +17,9 @@ fields.
     To overwrite a field generation behavior you have to add a extra argument
     with the name of the field, and the value must be, a fixed value or a
     callable object that receive 2 parameters, the model instance, and a
-    SampleDataHelper instance.
+    SampleDataHelper instance. This overwrite is done alwais at the end of
+    fill_model, this mean you can access all auto-generated data in other
+    instance fields.
 
 .. method:: ModelDataHelper.fill_model_instance(instance, \*\*kwargs)
 
