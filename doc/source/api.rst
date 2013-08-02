@@ -223,10 +223,12 @@ Other methods
 
     Return a key from a django choices list
 
-.. function:: db_object(model)
+.. function:: db_object(model, raise_not_choices=True)
 
-    Return a random object from the model
+    Return a random object from the model. If no object found and
+    raise_not_choices is True raises NotChoicesException.
 
-.. function:: db_object_from_queryset(queryset)
+.. function:: db_object_from_queryset(queryset, raise_not_choices=True)
 
-    Return a random object from the queryset
+    Return a random object from the queryset. If no object found and
+    raise_not_choices is True raises NotChoicesException.

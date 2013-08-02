@@ -28,18 +28,24 @@ class OtherMixin(object):
         except (TypeError, ValueError, ParameterError):
             raise ParameterError('choices must be a valid django choices list')
 
-    def db_object(self, model):
+    def db_object(self, model, raise_not_choices=True):
         if model.objects.all().count() > 0:
             return self.db_object_from_queryset(model.objects.all())
-        else:
+
+        if raise_not_choices:
             raise NotChoicesFound('Emtpy queryset')
 
-    def db_object_from_queryset(self, queryset):
+        return None
+
+    def db_object_from_queryset(self, queryset, raise_not_choices=True):
         count = queryset.all().count()
         if count > 0:
             return queryset.all()[self.int(max_value=count-1)]
-        else:
+
+        if raise_not_choices:
             raise NotChoicesFound('Emtpy queryset')
+
+        return None
 
     def ipv4(self):
         return "{0}.{1}.{2}.{3}".format(
