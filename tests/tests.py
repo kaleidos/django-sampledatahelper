@@ -692,3 +692,9 @@ class TestModelDataHelpers(unittest.TestCase):
 
         self.mdh.fill_model(TestModel, 5, integer=15)
         self.assertEqual(TestModel.objects.all()[0].integer, 15)
+
+        TestModel.objects.all().delete()
+
+        self.mdh.fill_model(TestModel, 5, integer=lambda instance, _: instance.small_integer * 2)
+        test_instance = TestModel.objects.all()[0]
+        self.assertEqual(test_instance.integer, test_instance.small_integer * 2)

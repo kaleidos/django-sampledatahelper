@@ -35,18 +35,18 @@ class ModelDataHelper(object):
         if not isinstance(instance, models.Model):
             raise ParameterError('instance must be a django model instance')
 
-        for field in self.__get_instance_fields(instance):
-            field_name = field[0]
-            field_obj = field[1]
+        instance_fields = dict(self.__get_instance_fields(instance))
 
-            if field_name in kwargs:
-                if hasattr(kwargs[field_name], '__call__'):
-                    value = kwargs[field_name](instance, self.sd)
-                else:
-                    value = kwargs[field_name]
-                setattr(instance, field_name, value)
-            else:
+        for field_name, field_obj in instance_fields.iteritems():
+            if field_name not in kwargs:
                 handler = register.get_handler(field_obj)
                 if handler:
                     value = handler.generate()
                     setattr(instance, field_name, value)
+
+        for field_name in kwargs.keys():
+            if hasattr(kwargs[field_name], '__call__'):
+                value = kwargs[field_name](instance, self.sd)
+            else:
+                value = kwargs[field_name]
+            setattr(instance, field_name, value)
