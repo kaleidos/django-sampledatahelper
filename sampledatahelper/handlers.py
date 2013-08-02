@@ -19,9 +19,9 @@ class CharHandler(BaseHandler):
         elif self.instance.max_length < 100:
             return self.sd.words(1, 10)[0:self.instance.max_length]
         elif self.instance.max_length < 200:
-            return self.sd.short_sentence()
+            return self.sd.short_sentence()[0:self.instance.max_length]
         else:
-            return self.sd.long_sentence()
+            return self.sd.long_sentence()[0:self.instance.max_length]
 
 
 class SlugHandler(BaseHandler):
