@@ -24,3 +24,19 @@ ALLOWED_HOSTS = ['testserver',]
 BACKEND_SESSION_KEY = "test"
 
 USE_TZ = True
+
+SAMPLEDATAHELPER_MODELS = [
+    {
+        'model': 'tests.TestRelatedModel',
+        'number': 10,
+    },
+    {
+        'model': 'tests.TestModel',
+        'number': 5,
+        'fields_overwrite': [
+            ('small_integer', lambda _, sd: sd.int(1, 10)),
+            ('integer', lambda instance, _: instance.small_integer * 2),
+            ('positive_integer', 8),
+        ]
+    }
+]

@@ -698,3 +698,41 @@ class TestModelDataHelpers(unittest.TestCase):
         self.mdh.fill_model(TestModel, 5, integer=lambda instance, _: instance.small_integer * 2)
         test_instance = TestModel.objects.all()[0]
         self.assertEqual(test_instance.integer, test_instance.small_integer * 2)
+
+        TestModel.objects.all().delete()
+
+        self.mdh.fill_model(TestModel, 5, ('integer', lambda _, sd: sd.int(5, 5)))
+        self.assertEqual(TestModel.objects.all()[0].integer, 5)
+
+        TestModel.objects.all().delete()
+
+        self.mdh.fill_model(TestModel, 5, ('integer', 15))
+        self.assertEqual(TestModel.objects.all()[0].integer, 15)
+
+        TestModel.objects.all().delete()
+
+        self.mdh.fill_model(TestModel, 5, ('integer', lambda instance, _: instance.small_integer * 2))
+        test_instance = TestModel.objects.all()[0]
+        self.assertEqual(test_instance.integer, test_instance.small_integer * 2)
+
+class TestSampleDataHelperCommand(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        TestRelatedModel.objects.all().delete()
+        TestModel.objects.all().delete()
+
+    @classmethod
+    def tearDownClass(cls):
+        TestRelatedModel.objects.all().delete()
+        TestModel.objects.all().delete()
+
+    def test_calling_command(self):
+        call_command('sampledatafiller', interactive=False)
+
+        self.assertEqual(TestRelatedModel.objects.all().count(), 10)
+        self.assertEqual(TestModel.objects.all().count(), 5)
+
+        test_instance = TestModel.objects.all()[0]
+        self.assertEqual(test_instance.integer, test_instance.small_integer*2)
+        self.assertEqual(test_instance.positive_integer, 8)
+        self.assertTrue(test_instance.small_integer >= 1 and test_instance.small_integer <= 10)

@@ -19,7 +19,7 @@ class ModelDataHelper(object):
                 pass
         return fields
 
-    def fill_model(self, model, number, **kwargs):
+    def fill_model(self, model, number, *args, **kwargs):
         if number <= 0:
             raise ParameterError('number must be greater than 0')
 
@@ -28,10 +28,10 @@ class ModelDataHelper(object):
 
         for x in range(number):
             instance = model()
-            self.fill_model_instance(instance, **kwargs)
+            self.fill_model_instance(instance, *args, **kwargs)
             instance.save()
 
-    def fill_model_instance(self, instance, **kwargs):
+    def fill_model_instance(self, instance, *args, **kwargs):
         if not isinstance(instance, models.Model):
             raise ParameterError('instance must be a django model instance')
 
@@ -41,6 +41,13 @@ class ModelDataHelper(object):
                 if handler:
                     value = handler.generate()
                     setattr(instance, field_name, value)
+
+        for field in args:
+            if hasattr(field[1], '__call__'):
+                value = field[1](instance, self.sd)
+            else:
+                value = field[1]
+            setattr(instance, field[0], value)
 
         for field_name in kwargs.keys():
             if hasattr(kwargs[field_name], '__call__'):
