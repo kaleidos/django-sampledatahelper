@@ -35,9 +35,7 @@ class ModelDataHelper(object):
         if not isinstance(instance, models.Model):
             raise ParameterError('instance must be a django model instance')
 
-        instance_fields = dict(self.__get_instance_fields(instance))
-
-        for field_name, field_obj in instance_fields.iteritems():
+        for field_name, field_obj in self.__get_instance_fields(instance):
             if field_name not in kwargs:
                 handler = register.get_handler(field_obj)
                 if handler:
