@@ -9,9 +9,7 @@ Using SampleDataFiller
 ----------------------
 
 Sample data filler is a command that use the :code:`SAMPLEDATAHELPER_MODELS` setting
-variable to populate your database. Example:
-
-.. code:: python
+variable to populate your database. Example::
 
   SAMPLEDATAHELPER_MODELS = [
       # Generate 5 instances completly random
@@ -52,9 +50,7 @@ generate everything.
 The file must be in :code:`<app-module>/management/commands/<command-name>.py` can be
 something like :code:`myapp/management/commands/mysampledata.py`.
 
-The easy way to build your command is using :code:`ModelDataHelper`.
-
-.. code:: python
+The easy way to build your command is using :code:`ModelDataHelper`::
 
   from django.core.management.base import BaseCommand
   from myapp.models import MyModel
@@ -79,9 +75,7 @@ The easy way to build your command is using :code:`ModelDataHelper`.
           # Generate 5 instances with fixed data in a field
           self.mdh.fill_model(MyModel, 5, my_int_field=8)
 
-You can build a more precise command using directly the :code:`SampleDataHelper`.
-
-.. code:: python
+You can build a more precise command using directly the :code:`SampleDataHelper`::
 
   from django.core.management.base import BaseCommand
   from myapp.models import MyModel
