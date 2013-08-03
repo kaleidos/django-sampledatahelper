@@ -16,37 +16,11 @@ Django Sample Data Helper
 .. image:: https://pypip.in/d/django-sampledatahelper/badge.png
     :target: https://crate.io/packages/django-sampledatahelper
 
-Helper class to create django sample data.
+App to automatically populate django database.
 
-Example
--------
+.. include:: doc/source/install_and_configure.rst
 
-Sample data command for generate instances of MyModel
-
-.. code:: python
-
-  from django.core.management.base import BaseCommand
-  from myapp.models import MyModel
-  from sampledatahelper.model_helper import ModelDataHelper
-  from sampledatahelper.helper import SampleDataHelper
-  
-  class Command(BaseCommand):
-      args = ''
-      help = 'Example data generator'
-      mdh = ModelDataHelper(seed=12345678901)
-  
-      def handle(self, *args, **options):
-          print "Generating MyModel data"
-          # Generate 5 instances completly random
-          self.mdh.fill_model(MyModel, 5)
-  
-          # Generate 5 instances selecting random method for some fields
-          self.mdh.fill_model(MyModel,
-                              5,
-                              my_int_field=lambda instance, sd: sd.int(5, 10))
-  
-          # Generate 5 instances with fixed data in a field
-          self.mdh.fill_model(MyModel, 5, my_int_field=8)
+.. include:: doc/source/quick_start.rst
 
 Documentation
 -------------

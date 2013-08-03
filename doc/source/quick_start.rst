@@ -3,18 +3,56 @@ Quick start
 
 Follow the install and configure instructions.
 
-If you have some aplications to populate, you can split your sample data
-generation on one command per app, or add only one command in one app thats
-generate everything. Anyway you have to build a command files.
+With Django sampledatahelper you have 2 options to populate your database
 
-The file must be in `<app-module>/management/commands/<command-name>.py` can be
-something like `myapp/management/commands/mysampledata.py`.
-
-
-Using ModelDataHelper
+Using SampleDataFiller
 ----------------------
 
-The easy way to build your command is using ModelDataHelper.
+Sample data filler is a command that use the :code:`SAMPLEDATAHELPER_MODELS` setting
+variable to populate your database. Example:
+
+.. code:: python
+
+  SAMPLEDATAHELPER_MODELS = [
+      # Generate 5 instances completly random
+      { 'model': 'myapp.MyModel', 'number': 5, },
+
+      # Generate 5 instances selecting random method for some fields
+      {
+          'model': 'myapp.MyModel',
+          'number': 5,
+          'fields_overwrite': [
+              ('my_int_field', lambda _, sd: sd.int(5, 10)),
+          ]
+      },
+
+      # Generate 5 instances with fixed data in a field
+      {
+          'model': 'myapp.MyModel',
+          'number': 5,
+          'fields_overwrite': [
+              ('my_int_field', 5),
+          ]
+      }
+  ]
+
+Then you only have to run::
+
+  python manage.py sampledatafiller
+
+Using a custom sampledata command
+---------------------------------
+
+You can create a command to fill your models manullay to take more control.
+
+If you have some aplications to populate, you can split your sample data
+generation on one command per app, or add only one command in one app thats
+generate everything.
+
+The file must be in :code:`<app-module>/management/commands/<command-name>.py` can be
+something like :code:`myapp/management/commands/mysampledata.py`.
+
+The easy way to build your command is using :code:`ModelDataHelper`.
 
 .. code:: python
 
@@ -41,15 +79,7 @@ The easy way to build your command is using ModelDataHelper.
           # Generate 5 instances with fixed data in a field
           self.mdh.fill_model(MyModel, 5, my_int_field=8)
 
-To generate your sampledata, simply run the created command, for example::
-
-  python manage.py mysampledata
-
-Using SampleDataHelper directly
--------------------------------
-
-If you want you can build your instances manually using SampleDataHelper object
-directly.
+You can build a more precise command using directly the :code:`SampleDataHelper`.
 
 .. code:: python
 
@@ -66,7 +96,7 @@ directly.
           for x in range(instances):
               instance = MyModel.objects.create(
                   slug=self.sd.slug(2, 3),
-                  name=self.sd.name(2, 3)
+                  name=self.sd.name(2, 3),
                   claim=self.sd.sentence(),
                   description=self.sd.paragraph(),
                   email=self.sd.email(),
@@ -80,3 +110,8 @@ directly.
       def handle(self, *args, **options):
           print "Generating MyModel data"
           self.generate_mymodel_data(5)
+
+To generate your sampledata, simply run the created command, for example::
+
+  python manage.py mysampledata
+

@@ -1,5 +1,10 @@
-API
-===
+SampleDataHelper
+================
+
+.. class:: SampleDataHelper(seed=None)
+
+    SampleDataHelper easy the random data generation for a lot of common used
+    data types.
 
 Number methods
 --------------

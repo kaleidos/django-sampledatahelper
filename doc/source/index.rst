@@ -3,10 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Django Sample Data Helper's documentation!
-=====================================================
-
-Contents:
+Django Sample Data Helper
+=========================
 
 .. toctree::
    :maxdepth: 2
@@ -14,7 +12,7 @@ Contents:
    install_and_configure
    quick_start
    model_helper
-   api
+   sampledatahelper
 
 
 Indices and tables
