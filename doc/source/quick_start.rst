@@ -8,7 +8,7 @@ With Django sampledatahelper you have 2 options to populate your database
 Using SampleDataFiller
 ----------------------
 
-Sample data filler is a command that use the :code:`SAMPLEDATAHELPER_MODELS` setting
+Sample data filler is a command that use the ``SAMPLEDATAHELPER_MODELS`` setting
 variable to populate your database. Example::
 
   SAMPLEDATAHELPER_MODELS = [
@@ -47,10 +47,10 @@ If you have some aplications to populate, you can split your sample data
 generation on one command per app, or add only one command in one app thats
 generate everything.
 
-The file must be in :code:`<app-module>/management/commands/<command-name>.py` can be
-something like :code:`myapp/management/commands/mysampledata.py`.
+The file must be in ``<app-module>/management/commands/<command-name>.py`` can be
+something like ``myapp/management/commands/mysampledata.py``.
 
-The easy way to build your command is using :code:`ModelDataHelper`::
+The easy way to build your command is using :py:class:`ModelDataHelper`::
 
   from django.core.management.base import BaseCommand
   from myapp.models import MyModel
@@ -75,7 +75,7 @@ The easy way to build your command is using :code:`ModelDataHelper`::
           # Generate 5 instances with fixed data in a field
           self.mdh.fill_model(MyModel, 5, my_int_field=8)
 
-You can build a more precise command using directly the :code:`SampleDataHelper`::
+You can build a more precise command using directly the :py:class:`SampleDataHelper`::
 
   from django.core.management.base import BaseCommand
   from myapp.models import MyModel

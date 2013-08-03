@@ -4,12 +4,12 @@ Model Data Helper
 Model data helper easy the models population introspecting in the django model
 fields.
 
-.. class:: ModelDataHelper(seed=None)
+.. py:class:: ModelDataHelper(seed=None)
 
     Initialize the seed of the instance of model data helper, to allwais
     generate the same data.
 
-.. method:: ModelDataHelper.fill_model(model, number, \*args, \*\*kwargs)
+.. py:method:: ModelDataHelper.fill_model(model, number, \*args, \*\*kwargs)
 
     Generate a number of instances of the model and save it. You can overwrite
     the default data generator adding extra kwargs arguments.
@@ -31,7 +31,7 @@ fields.
     parameters, and third the overwrited fields in kwargs in any orders. If you
     want to asure the ordering, use the args overwrite.
 
-.. method:: ModelDataHelper.fill_model_instance(instance, \*args, \*\*kwargs)
+.. py:method:: ModelDataHelper.fill_model_instance(instance, \*args, \*\*kwargs)
 
     Fill a instance of a django model. You can overwrite the default data
     generator adding extra arguments like in `fill_model` method. Examples::
