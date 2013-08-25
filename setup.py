@@ -26,7 +26,6 @@ setup(
     install_requires=[
         'six',
         'django',
-        'distribute',
     ],
     setup_requires = [
         'versiontools >= 1.8',
