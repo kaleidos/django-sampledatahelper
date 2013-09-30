@@ -19,9 +19,7 @@ setup(
     include_package_data = True,
     packages = find_packages(),
     package_data={
-        'sampledatahelper': [
-            'static/*',
-        ]
+        'sampledatahelper': ['static/*', 'l10n/names/*',]
     },
     install_requires=[
         'six',

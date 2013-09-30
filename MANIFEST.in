@@ -1,0 +1,3 @@
+include LICENSE NEWS.rst README.rst
+include sampledatahelper/static/*
+include sampledatahelper/l10n/names/*

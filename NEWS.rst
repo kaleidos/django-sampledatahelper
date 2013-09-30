@@ -1,3 +1,8 @@
+0.2.1
+=====
+
+  - Fixed problem with data files to include in the package.
+
 0.2.0
 =====
 
