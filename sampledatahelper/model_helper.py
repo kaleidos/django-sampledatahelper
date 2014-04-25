@@ -5,6 +5,12 @@ from .helper import SampleDataHelper
 from .exceptions import ParameterError
 from .register import register
 
+# import the logging library
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger('sampledatahelper')
+
 
 class ModelDataHelper(object):
     def __init__(self, seed=None):
@@ -20,6 +26,7 @@ class ModelDataHelper(object):
         return fields
 
     def fill_model(self, model, number, *args, **kwargs):
+        logger.debug("Filling model %s.%s with %d instances" % (model._meta.app_label, model.__name__, number))
         if number <= 0:
             raise ParameterError('number must be greater than 0')
 
@@ -28,6 +35,7 @@ class ModelDataHelper(object):
 
         for x in range(number):
             instance = model()
+            logger.debug("Filling instance %d" % (x))
             self.fill_model_instance(instance, *args, **kwargs)
             instance.save()
 
