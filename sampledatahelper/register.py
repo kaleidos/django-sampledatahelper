@@ -2,6 +2,14 @@ from django.db import models
 from sampledatahelper.helper import SampleDataHelper
 from sampledatahelper import handlers
 
+from importlib import import_module
+
+# import the logging library
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger('sampledatahelper')
+
 
 class Register(object):
     fields = {}
@@ -26,6 +34,9 @@ class Register(object):
         handler = self.fields.get(field_instance.__class__, None)
         if handler:
             return handler(self.sd, field_instance)
+
+        logger.debug('Ignoring unregistered field: %s' % field_instance.__class__
+        self.ignore(field_instance.__class__)
         return None
 
 
@@ -59,3 +70,22 @@ register.register(models.ForeignKey, handlers.ForeignKeyHandler)
 register.register(models.OneToOneField, handlers.OneToOneHandler)
 register.ignore(models.ManyToManyField)
 register.ignore(models.AutoField)
+
+for ignored_field in settings.SAMPLEDATAHELPER_IGNORED_FIELDS:
+    try:
+        register.ignore(import_module(ignored_field))
+    except ImportError:
+        logger.warn("Can't import ignored field: %s" % ignored_field)
+
+for (field, handler) in settings.SAMPLEDATAHELPER_CUSTOM_HANDLERS:
+    try:
+        imported_field = import_module(field)
+    except ImportError:
+        logger.warn("Can't import custom field: %s" % field)
+
+    try:
+        imported_handler = import_module(handler)
+    except ImportError:
+        logger.warn("Can't import custom handler: %s" % handler)
+
+    register.register(imported_field, imported_handler)

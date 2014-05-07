@@ -40,3 +40,11 @@ SAMPLEDATAHELPER_MODELS = [
         ]
     }
 ]
+
+SAMPLEDATAHELPER_IGNORED_FIELDS = [
+    'tests.TestIgnoredCustomField'
+]
+
+SAMPLEDATAHELPER_CUSTOM_HANDLERS = [
+    ('tests.TestCustomField', 'tests.TestCustomFieldHandler')
+]
