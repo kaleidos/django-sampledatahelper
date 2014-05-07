@@ -7,7 +7,7 @@ try:
     PIL_INSTALLED = True
 except ImportError:
     PIL_INSTALLED = False
-from tempfile import mkstemp
+from tempfile import NamedTemporaryFile
 
 from sampledatahelper.exceptions import ParameterError, NotChoicesFound
 
@@ -53,12 +53,14 @@ class ImageMixin(object):
 
         im = generator.generate(self, width, height)
 
-        tf, tfname = mkstemp(suffix=".png")
+        tf = NamedTemporaryFile(delete=False, suffix=".png")
+        tf.close()
 
-        im.save(tfname)
+        im.save(tf.name)
 
-        fd = open(tfname, 'rb')
+        fd = open(tf.name, 'rb')
         stream = io.BytesIO(fd.read())
         fd.close()
         im_file = ImageFile(stream)
+        os.unlink(tf.name)
         return im_file

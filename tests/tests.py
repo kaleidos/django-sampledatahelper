@@ -508,27 +508,21 @@ class TestImageHelpers(unittest.TestCase):
     def test_image(self):
         value = self.sd.image(100, 100)
         self.assertTrue(isinstance(value, ImageFile))
-        value.close()
 
         value = self.sd.image(100, 100, typ="simple")
         self.assertTrue(isinstance(value, ImageFile))
-        value.close()
 
         value = self.sd.image(100, 100, typ="plasma")
         self.assertTrue(isinstance(value, ImageFile))
-        value.close()
 
         value = self.sd.image(100, 100, typ="mandelbrot")
         self.assertTrue(isinstance(value, ImageFile))
-        value.close()
 
         value = self.sd.image(100, 100, typ="ifs")
         self.assertTrue(isinstance(value, ImageFile))
-        value.close()
 
         value = self.sd.image(100, 100, typ="random")
         self.assertTrue(isinstance(value, ImageFile))
-        value.close()
 
         image_mixin.PIL_INSTALLED = False
         with self.assertRaises(ImportError):
