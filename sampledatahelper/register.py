@@ -23,7 +23,11 @@ class Register(object):
     def get_handler(self, field_instance):
         if field_instance.__class__ in self.ignored_fields:
             return None
-        return self.fields[field_instance.__class__](self.sd, field_instance)
+        handler = self.fields.get(field_instance.__class__, None)
+        if handler:
+            return handler(self.sd, field_instance)
+        return None
+
 
 register = Register()
 register.register(models.CharField, handlers.CharHandler)
