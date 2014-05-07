@@ -1,4 +1,5 @@
 import os
+import io
 import random
 from django.core.files.images import ImageFile
 try:
@@ -23,7 +24,11 @@ class ImageMixin(object):
             raise NotChoicesFound('Not valid images found in directory_path for valid_extensions')
 
         random_path = os.path.join(directory_path, random.choice(list_of_images))
-        im_file = ImageFile(open(random_path, 'r'))
+
+        fd = open(random_path, 'rb')
+        stream = io.BytesIO(fd.read())
+        fd.close()
+        im_file = ImageFile(stream)
         return im_file
 
     def image(self, width, height, typ="simple"):
@@ -52,6 +57,8 @@ class ImageMixin(object):
 
         im.save(tfname)
 
-        im_file = ImageFile(open(tfname, 'rb'))
-
+        fd = open(tfname, 'rb')
+        stream = io.BytesIO(fd.read())
+        fd.close()
+        im_file = ImageFile(stream)
         return im_file
