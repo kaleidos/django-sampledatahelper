@@ -26,12 +26,13 @@ class ModelDataHelper(object):
         return fields
 
     def fill_model(self, model, number, *args, **kwargs):
-        logger.debug("Filling model %s.%s with %d instances" % (model._meta.app_label, model.__name__, number))
         if number <= 0:
             raise ParameterError('number must be greater than 0')
 
         if not issubclass(model, models.Model):
             raise ParameterError('model must be a django model subclass')
+
+        logger.debug("Filling model %s.%s with %d instances" % (model._meta.app_label, model.__name__, number))
 
         for x in range(number):
             instance = model()
