@@ -29,7 +29,7 @@ setup(
         'versiontools >= 1.8',
     ],
     test_suite = 'nose.collector',
-    tests_require = ['nose >= 1.2.1', 'django >= 1.3.0'],
+    tests_require = ['nose >= 1.3.0', 'django >= 1.3.0'],
     classifiers = [
         "Programming Language :: Python",
         'Development Status :: 4 - Beta',
