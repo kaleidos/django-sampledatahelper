@@ -5,6 +5,7 @@ python:
 install:
   - pip install -e . --use-mirrors
   - pip install nose . --use-mirrors
+  - pip install django-nose . --use-mirrors
   - pip install pillow . --use-mirrors
   - pip install coveralls --use-mirrors
 script:
