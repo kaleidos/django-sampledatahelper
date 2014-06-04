@@ -1,4 +1,7 @@
 from django.db import models
+
+from django.conf import settings
+
 from sampledatahelper.helper import SampleDataHelper
 from sampledatahelper import handlers
 
@@ -35,7 +38,7 @@ class Register(object):
         if handler:
             return handler(self.sd, field_instance)
 
-        logger.debug('Ignoring unregistered field: %s' % field_instance.__class__
+        logger.debug('Ignoring unregistered field: %s' % field_instance.__class__)
         self.ignore(field_instance.__class__)
         return None
 
@@ -82,10 +85,12 @@ for (field, handler) in settings.SAMPLEDATAHELPER_CUSTOM_HANDLERS:
         imported_field = import_module(field)
     except ImportError:
         logger.warn("Can't import custom field: %s" % field)
+        continue
 
     try:
         imported_handler = import_module(handler)
     except ImportError:
         logger.warn("Can't import custom handler: %s" % handler)
+        continue
 
     register.register(imported_field, imported_handler)
