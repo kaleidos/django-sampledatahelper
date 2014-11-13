@@ -50,7 +50,7 @@ class TestModel(models.Model):
     positive_small_integer = models.PositiveSmallIntegerField()
     big_integer = models.BigIntegerField()
     float = models.FloatField()
-    boolean = models.BooleanField()
+    boolean = models.BooleanField(default=False)
     null_boolean = models.NullBooleanField()
     comma_separated_integers = models.CommaSeparatedIntegerField(max_length=100)
     decimal = models.DecimalField(decimal_places=10, max_digits=20)
