@@ -15,7 +15,7 @@ from sampledatahelper.model_helper import ModelDataHelper
 from sampledatahelper.exceptions import ParameterError, NotChoicesFound
 from sampledatahelper.mixins import image_mixin
 
-from .models import TestModel, TestRelatedModel
+from . import models
 
 if django.VERSION >= (1, 7):
     django.setup()
@@ -623,43 +623,43 @@ class TestOtherHelpers(unittest.TestCase):
         mdh = ModelDataHelper()
 
         with self.assertRaises(NotChoicesFound):
-            self.sd.db_object(TestRelatedModel)
+            self.sd.db_object(models.TestRelatedModel)
 
-        mdh.fill_model(TestRelatedModel, 1)
+        mdh.fill_model(models.TestRelatedModel, 1)
 
         self.assertTrue(isinstance(
-            self.sd.db_object(TestRelatedModel),
-            TestRelatedModel
+            self.sd.db_object(models.TestRelatedModel),
+            models.TestRelatedModel
         ))
-        TestRelatedModel.objects.all().delete()
+        models.TestRelatedModel.objects.all().delete()
 
     def test_db_object_from_queryset(self):
         mdh = ModelDataHelper()
 
         with self.assertRaises(NotChoicesFound):
-            self.sd.db_object_from_queryset(TestRelatedModel.objects.all())
+            self.sd.db_object_from_queryset(models.TestRelatedModel.objects.all())
 
-        mdh.fill_model(TestRelatedModel, 10)
+        mdh.fill_model(models.TestRelatedModel, 10)
 
         self.assertTrue(isinstance(
-            self.sd.db_object_from_queryset(TestRelatedModel.objects.all()),
-            TestRelatedModel
+            self.sd.db_object_from_queryset(models.TestRelatedModel.objects.all()),
+            models.TestRelatedModel
         ))
-        TestRelatedModel.objects.all().delete()
+        models.TestRelatedModel.objects.all().delete()
 
 
 class TestModelDataHelpers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.mdh = ModelDataHelper()
-        cls.mdh.fill_model(TestRelatedModel, 10)
+        cls.mdh.fill_model(models.TestRelatedModel, 10)
 
     @classmethod
     def tearDownClass(cls):
-        TestRelatedModel.objects.all().delete()
+        models.TestRelatedModel.objects.all().delete()
 
     def test_fill_model_instance(self):
-        instance = TestModel()
+        instance = models.TestModel()
         self.mdh.fill_model_instance(instance)
 
         with self.assertRaises(ParameterError):
@@ -672,64 +672,64 @@ class TestModelDataHelpers(unittest.TestCase):
         self.assertEqual(instance.integer, 15)
 
     def test_fill_model(self):
-        self.mdh.fill_model(TestModel, 5)
+        self.mdh.fill_model(models.TestModel, 5)
 
         with self.assertRaises(ParameterError):
-            self.mdh.fill_model(TestModel, 0)
+            self.mdh.fill_model(models.TestModel, 0)
 
         with self.assertRaises(ParameterError):
             self.mdh.fill_model(unittest.TestCase, 5)
 
-        TestModel.objects.all().delete()
+        models.TestModel.objects.all().delete()
 
-        self.mdh.fill_model(TestModel, 5, integer=lambda _, sd: sd.int(5, 5))
-        self.assertEqual(TestModel.objects.all()[0].integer, 5)
+        self.mdh.fill_model(models.TestModel, 5, integer=lambda _, sd: sd.int(5, 5))
+        self.assertEqual(models.TestModel.objects.all()[0].integer, 5)
 
-        TestModel.objects.all().delete()
+        models.TestModel.objects.all().delete()
 
-        self.mdh.fill_model(TestModel, 5, integer=15)
-        self.assertEqual(TestModel.objects.all()[0].integer, 15)
+        self.mdh.fill_model(models.TestModel, 5, integer=15)
+        self.assertEqual(models.TestModel.objects.all()[0].integer, 15)
 
-        TestModel.objects.all().delete()
+        models.TestModel.objects.all().delete()
 
-        self.mdh.fill_model(TestModel, 5, integer=lambda instance, _: instance.small_integer * 2)
-        test_instance = TestModel.objects.all()[0]
+        self.mdh.fill_model(models.TestModel, 5, integer=lambda instance, _: instance.small_integer * 2)
+        test_instance = models.TestModel.objects.all()[0]
         self.assertEqual(test_instance.integer, test_instance.small_integer * 2)
 
-        TestModel.objects.all().delete()
+        models.TestModel.objects.all().delete()
 
-        self.mdh.fill_model(TestModel, 5, ('integer', lambda _, sd: sd.int(5, 5)))
-        self.assertEqual(TestModel.objects.all()[0].integer, 5)
+        self.mdh.fill_model(models.TestModel, 5, ('integer', lambda _, sd: sd.int(5, 5)))
+        self.assertEqual(models.TestModel.objects.all()[0].integer, 5)
 
-        TestModel.objects.all().delete()
+        models.TestModel.objects.all().delete()
 
-        self.mdh.fill_model(TestModel, 5, ('integer', 15))
-        self.assertEqual(TestModel.objects.all()[0].integer, 15)
+        self.mdh.fill_model(models.TestModel, 5, ('integer', 15))
+        self.assertEqual(models.TestModel.objects.all()[0].integer, 15)
 
-        TestModel.objects.all().delete()
+        models.TestModel.objects.all().delete()
 
-        self.mdh.fill_model(TestModel, 5, ('integer', lambda instance, _: instance.small_integer * 2))
-        test_instance = TestModel.objects.all()[0]
+        self.mdh.fill_model(models.TestModel, 5, ('integer', lambda instance, _: instance.small_integer * 2))
+        test_instance = models.TestModel.objects.all()[0]
         self.assertEqual(test_instance.integer, test_instance.small_integer * 2)
 
 class TestSampleDataHelperCommand(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        TestRelatedModel.objects.all().delete()
-        TestModel.objects.all().delete()
+        models.TestRelatedModel.objects.all().delete()
+        models.TestModel.objects.all().delete()
 
     @classmethod
     def tearDownClass(cls):
-        TestRelatedModel.objects.all().delete()
-        TestModel.objects.all().delete()
+        models.TestRelatedModel.objects.all().delete()
+        models.TestModel.objects.all().delete()
 
     def test_calling_command(self):
         call_command('sampledatafiller', interactive=False)
 
-        self.assertEqual(TestRelatedModel.objects.all().count(), 10)
-        self.assertEqual(TestModel.objects.all().count(), 5)
+        self.assertEqual(models.TestRelatedModel.objects.all().count(), 10)
+        self.assertEqual(models.TestModel.objects.all().count(), 5)
 
-        test_instance = TestModel.objects.all()[0]
+        test_instance = models.TestModel.objects.all()[0]
         self.assertEqual(test_instance.integer, test_instance.small_integer*2)
         self.assertEqual(test_instance.positive_integer, 8)
         self.assertTrue(test_instance.small_integer >= 1 and test_instance.small_integer <= 10)
