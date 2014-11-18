@@ -1,5 +1,5 @@
 import django
-from django.utils import unittest
+import unittest
 from django.core.validators import validate_email, validate_slug, URLValidator
 from django.utils.timezone import utc
 from django.core.files.images import ImageFile
@@ -625,9 +625,7 @@ class TestOtherHelpers(unittest.TestCase):
         with self.assertRaises(NotChoicesFound):
             self.sd.db_object(TestRelatedModel)
 
-        return
         mdh.fill_model(TestRelatedModel, 1)
-        return
 
         self.assertTrue(isinstance(
             self.sd.db_object(TestRelatedModel),

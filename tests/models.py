@@ -22,7 +22,8 @@ INTEGER_CHOICES = (
 
 
 class TestRelatedModel(models.Model):
-    pass
+    class Meta:
+        app_label = "tests"
 
 
 class TestModel(models.Model):
@@ -63,7 +64,7 @@ class TestModel(models.Model):
     file_path = models.FilePathField()
     image = models.ImageField(upload_to="tests/tmp")
 
-    ip = models.IPAddressField()
+    ip = models.GenericIPAddressField()
     generic_ip = models.GenericIPAddressField()
 
     foreing_key = models.ForeignKey('tests.TestRelatedModel', related_name="test_related_1")
@@ -79,3 +80,6 @@ class TestModel(models.Model):
     one_to_one_key_choices = models.OneToOneField('tests.TestRelatedModel',
                                                   related_name="test_related_5",
                                                   limit_choices_to={'id__gt': 0})
+
+    class Meta:
+        app_label = "tests"
