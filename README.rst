@@ -21,6 +21,8 @@ App to automatically populate django database.
 Install and configure
 =====================
 
+You need at least django >= 1.4.
+
 Install using pip, including any pillow if you want image genetion...:
 
 .. code:: bash
