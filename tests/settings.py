@@ -19,6 +19,8 @@ INSTALLED_APPS = [
     'tests'
 ]
 
+MIDDLEWARE_CLASSES = [] # Just to avoid a warning
+
 ALLOWED_HOSTS = ['testserver',]
 
 BACKEND_SESSION_KEY = "test"
