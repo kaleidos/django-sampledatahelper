@@ -233,6 +233,8 @@ Other methods
     Return a random object from the model. If no object found and
     raise_not_choices is True raises NotChoicesException.
 
+    The model may also be specified as a string in the form 'app_label.model_name'.
+
 .. py:method:: SampleDataHelper.db_object_from_queryset(queryset, raise_not_choices=True)
 
     Return a random object from the queryset. If no object found and

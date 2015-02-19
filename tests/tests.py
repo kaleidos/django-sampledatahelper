@@ -633,6 +633,20 @@ class TestOtherHelpers(unittest.TestCase):
         ))
         models.TestRelatedModel.objects.all().delete()
 
+    def test_db_object_string(self):
+        mdh = ModelDataHelper()
+
+        with self.assertRaises(NotChoicesFound):
+            self.sd.db_object('tests.TestRelatedModel')
+
+        mdh.fill_model(models.TestRelatedModel, 1)
+
+        self.assertTrue(isinstance(
+            self.sd.db_object('tests.TestRelatedModel'),
+            models.TestRelatedModel
+        ))
+        models.TestRelatedModel.objects.all().delete()
+
     def test_db_object_from_queryset(self):
         mdh = ModelDataHelper()
 

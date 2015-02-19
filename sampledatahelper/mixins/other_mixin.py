@@ -3,6 +3,7 @@ import os
 import io
 
 from django.core.files.base import ContentFile
+from django.db.models.loading import get_model
 
 from ..exceptions import ParameterError, NotChoicesFound
 
@@ -33,6 +34,8 @@ class OtherMixin(object):
             raise ParameterError('choices must be a valid django choices list')
 
     def db_object(self, model, raise_not_choices=True):
+        if isinstance(model, str):
+            model = get_model(model)
         if model.objects.all().count() > 0:
             return self.db_object_from_queryset(model.objects.all())
 
