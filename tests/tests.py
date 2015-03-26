@@ -12,8 +12,8 @@ import six
 
 from sampledatahelper.helper import SampleDataHelper
 from sampledatahelper.model_helper import ModelDataHelper
-from sampledatahelper.exceptions import ParameterError, NotChoicesFound
-from sampledatahelper.mixins import image_mixin
+from sampledata.mixins import image_mixin
+from sampledata.exceptions import ParameterError, NotChoicesFound
 
 from . import models
 

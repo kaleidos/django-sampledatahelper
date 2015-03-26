@@ -1,3 +1,8 @@
+0.3.0
+=====
+
+  - Splitted the django-sampledatahelper and the sampledata library
+
 0.2.1
 =====
 

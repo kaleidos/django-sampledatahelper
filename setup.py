@@ -24,6 +24,7 @@ setup(
     install_requires=[
         'six',
         'django',
+        'sampledata',
     ],
     setup_requires = [
         'versiontools >= 1.8',

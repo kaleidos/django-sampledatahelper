@@ -1,8 +1,9 @@
 from django.db import models
 from django.db.models.fields import FieldDoesNotExist
 
+from sampledata.exceptions import ParameterError
+
 from .helper import SampleDataHelper
-from .exceptions import ParameterError
 from .register import register
 
 # import the logging library
