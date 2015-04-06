@@ -1,6 +1,9 @@
 from django.db import models
 from django.db.models.fields import FieldDoesNotExist
 
+import django
+from distutils.version import StrictVersion
+
 from sampledata.exceptions import ParameterError
 
 from .helper import SampleDataHelper
@@ -18,10 +21,25 @@ class ModelDataHelper(object):
         self.sd = SampleDataHelper(seed)
 
     def __get_instance_fields(self, instance):
+        django_version = django.get_version()
+        if StrictVersion(django_version) >= StrictVersion('1.8'):
+            return self.__get_instance_fields_django_18(instance)
+        return self.__get_instance_fields_django_other(instance)
+
+    def __get_instance_fields_django_other(self, instance):
         fields = []
         for field_name in instance._meta.get_all_field_names():
             try:
                 fields.append((field_name, instance._meta.get_field(field_name)))
+            except FieldDoesNotExist:
+                pass
+        return fields
+
+    def __get_instance_fields_django_18(self, instance):
+        fields = []
+        for field in instance._meta.get_fields():
+            try:
+                fields.append((field.name, field))
             except FieldDoesNotExist:
                 pass
         return fields
