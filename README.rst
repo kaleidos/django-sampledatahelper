@@ -112,7 +112,7 @@ Using a custom sampledata command
 
 You can create a command to fill your models manullay to take more control.
 
-If you have some aplications to populate, you can split your sample data
+If you have some applications to populate, you can split your sample data
 generation on one command per app, or add only one command in one app thats
 generate everything.
 
