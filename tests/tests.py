@@ -15,11 +15,13 @@ from sampledatahelper.model_helper import ModelDataHelper
 from sampledata.mixins import image_mixin
 from sampledata.exceptions import ParameterError, NotChoicesFound
 
-from . import models
-
 if django.VERSION >= (1, 7):
     django.setup()
-call_command('syncdb', interactive=False)
+    call_command('migrate', run_syncdb=True, interactive=False)
+else:
+    call_command('syncdb', interactive=False)
+
+from . import models
 
 
 class TestNumberHelpers(unittest.TestCase):

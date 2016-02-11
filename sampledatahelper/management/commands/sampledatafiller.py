@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
-from django.db.models.loading import get_model
 from django.conf import settings
 
+from sampledatahelper.compat import get_model
 from sampledatahelper.model_helper import ModelDataHelper
 
 class Command(BaseCommand):

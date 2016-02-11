@@ -67,18 +67,25 @@ class TestModel(models.Model):
     ip = models.GenericIPAddressField()
     generic_ip = models.GenericIPAddressField()
 
-    foreing_key = models.ForeignKey('tests.TestRelatedModel', related_name="test_related_1")
-    one_to_one = models.OneToOneField(TestRelatedModel, related_name="test_related_2")
-    many_to_many = models.ManyToManyField(TestRelatedModel, related_name="test_related_3")
+    foreing_key = models.ForeignKey('tests.TestRelatedModel',
+                                    related_name="test_related_1",
+                                    on_delete=models.CASCADE)
+    one_to_one = models.OneToOneField(TestRelatedModel,
+                                      related_name="test_related_2",
+                                      on_delete=models.CASCADE)
+    many_to_many = models.ManyToManyField(TestRelatedModel,
+                                          related_name="test_related_3")
 
     # With choices
     integer_choices = models.IntegerField(choices=INTEGER_CHOICES)
     char_choices = models.CharField(max_length=30, choices=CHAR_CHOICES)
     foreing_key_choices = models.ForeignKey('tests.TestRelatedModel',
                                             related_name="test_related_4",
+                                            on_delete=models.CASCADE,
                                             limit_choices_to={'id__gt': 0})
     one_to_one_key_choices = models.OneToOneField('tests.TestRelatedModel',
                                                   related_name="test_related_5",
+                                                  on_delete=models.CASCADE,
                                                   limit_choices_to={'id__gt': 0})
 
     class Meta:

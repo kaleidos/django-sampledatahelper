@@ -8,11 +8,11 @@ import os
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
-from django.db.models.loading import get_model
 
 from sampledata.helper import SampleData
 from sampledata.exceptions import NotChoicesFound, ParameterError
 
+from sampledatahelper.compat import get_model
 
 class SampleDataHelper(SampleData):
     def __init__(self, seed=None):
