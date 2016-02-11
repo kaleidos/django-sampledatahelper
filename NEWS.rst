@@ -1,3 +1,7 @@
+0.4.0
+=====
+  - Make compatible with Django 1.9.
+
 0.3.0
 =====
 
