@@ -22,7 +22,6 @@ setup(
         'sampledatahelper': ['static/*', 'l10n/names/*',]
     },
     install_requires=[
-        'six',
         'django',
         'sampledata',
     ],
@@ -30,7 +29,7 @@ setup(
         'versiontools >= 1.8',
     ],
     test_suite = 'nose.collector',
-    tests_require = ['nose >= 1.3.0', 'django >= 1.7.10'],
+    tests_require = ['nose >= 1.3.0', 'django >= 1.7.10', 'six'],
     classifiers = [
         "Programming Language :: Python",
         'Development Status :: 4 - Beta',
