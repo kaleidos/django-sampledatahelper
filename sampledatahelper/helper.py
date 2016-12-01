@@ -58,12 +58,12 @@ class SampleDataHelper(SampleData):
         fd = open(random_path, 'rb')
         stream = io.BytesIO(fd.read())
         fd.close()
-        im_file = ImageFile(stream)
+        im_file = ImageFile(file=stream, name=os.path.basename(random_path))
         return im_file
 
     def image(self, width, height, typ="simple"):
         stream = self.image_stream(width, height, typ)
-        im_file = ImageFile(stream)
+        im_file = ImageFile(file=stream, name="random_image.png")
         return im_file
 
     def file_from_directory(self, directory_path, valid_extensions=['.jpg', '.bmp', '.png']):
