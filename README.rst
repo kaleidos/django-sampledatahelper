@@ -10,7 +10,7 @@ Django Sample Data Helper
 .. image:: https://img.shields.io/coveralls/kaleidos/django-sampledatahelper.svg
     :target: https://coveralls.io/r/kaleidos/django-sampledatahelper?branch=master
 
-.. image:: https://img.shields.io/pypi/dm/django-sampledatahelper.svg
+.. image:: https://img.shields.io/pypi/v/django-sampledatahelper.svg
     :target: https://pypi.python.org/pypi/django-sampledatahelper
 
 App to automatically populate django database.
