@@ -17,7 +17,7 @@ setup(
     url = 'https://github.com/kaleidos/django-sampledatahelper',
     license = 'BSD',
     include_package_data = True,
-    packages = find_packages(),
+    packages = find_packages(exclude=['tests']),
     package_data={
         'sampledatahelper': ['static/*', 'l10n/names/*',]
     },
