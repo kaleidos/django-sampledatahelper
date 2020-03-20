@@ -22,14 +22,14 @@ setup(
         'sampledatahelper': ['static/*', 'l10n/names/*',]
     },
     install_requires=[
-        'django',
+        'django >= 2.0.0',
         'sampledata',
     ],
     setup_requires = [
         'versiontools >= 1.8',
     ],
     test_suite = 'nose.collector',
-    tests_require = ['nose >= 1.3.0', 'django >= 1.7.10', 'six'],
+    tests_require = ['nose >= 1.3.0', 'django >= 2.0.0', 'six'],
     classifiers = [
         "Programming Language :: Python",
         'Development Status :: 4 - Beta',
