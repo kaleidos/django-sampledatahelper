@@ -8,7 +8,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.settings'
 
 setup(
     name = 'django-sampledatahelper',
-    version = ":versiontools:sampledatahelper:",
+    version = "0.5.0",
     description = "Helper class for generate sampledata",
     long_description = "",
     keywords = 'django, data, example',
@@ -24,9 +24,6 @@ setup(
     install_requires=[
         'django >= 2.0.0',
         'sampledata',
-    ],
-    setup_requires = [
-        'versiontools >= 1.8',
     ],
     test_suite = 'nose.collector',
     tests_require = ['nose >= 1.3.0', 'django >= 2.0.0', 'six'],
